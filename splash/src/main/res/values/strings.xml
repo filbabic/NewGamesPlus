@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">splash</string>
+    <string name="register_button">Register</string>
+    <string name="login_button">Login</string>
+</resources>
