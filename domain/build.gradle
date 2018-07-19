@@ -29,7 +29,7 @@ compileTestKotlin {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    api "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
 
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
@@ -38,9 +38,6 @@ dependencies {
     testImplementation "org.mockito:mockito-core:$mockito"
     testImplementation "com.nhaarman:mockito-kotlin:$mockitoKotlin"
 }
-
-sourceCompatibility = "1.7"
-targetCompatibility = "1.7"
 
 kotlin {
     experimental {

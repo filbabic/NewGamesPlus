@@ -6,6 +6,7 @@ import com.filip.babic.device.di.appModule
 import com.filip.babic.newgamesplus.di.module.repositoryModule
 import com.filip.babic.newgamesplus.di.module.viewModelModule
 import com.filip.babic.newgamesplus.lifecycle.CustomLifecycleHandler
+import com.squareup.leakcanary.LeakCanary
 import org.koin.android.ext.android.startKoin
 
 class App : Application() {
@@ -22,5 +23,7 @@ class App : Application() {
         startKoin(this, listOf(appModule(), networkingModule(BuildConfig.DEBUG), repositoryModule, viewModelModule))
 
         registerActivityLifecycleCallbacks(CustomLifecycleHandler())
+
+        LeakCanary.install(this)
     }
 }

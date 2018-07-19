@@ -28,29 +28,18 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    //core modules
     implementation project(':core')
-    implementation project(':domain')
-    implementation project(':data')
 
     //feature-specific modules
     implementation project(':splash')
     implementation project(':login')
     implementation project(':register')
 
-    //ui
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
-
-    //di
-    implementation "org.koin:koin-core:$koin"
-    implementation "org.koin:koin-android:$koin"
-    implementation "org.koin:koin-android:$koin"
-    implementation "org.koin:koin-android-scope:$koin"
-    implementation "org.koin:koin-android-viewmodel:$koin"
-
     //leaks
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
-    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakCanary"
+    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanary"
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 }
 
 kotlin {

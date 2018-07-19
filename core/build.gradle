@@ -26,27 +26,23 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    //core dependencies
-    api project(':domain')
     api project(':data')
 
-    api "com.android.support:appcompat-v7:$supportLib"
-    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
-    //coroutines
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
+    //general ui dependencies
+    api "com.android.support:appcompat-v7:$supportLib"
+    api "com.android.support.constraint:constraint-layout:$constraintLayout"
 
     //architecture components
-    api "android.arch.lifecycle:viewmodel:$architectureComponents"
+    implementation "android.arch.lifecycle:viewmodel:$architectureComponents"
     kapt "android.arch.lifecycle:compiler:$architectureComponents"
 
     //di
-    implementation "org.koin:koin-core:$koin"
-    implementation "org.koin:koin-android:$koin"
-    implementation "org.koin:koin-android:$koin"
-    implementation "org.koin:koin-android-scope:$koin"
-    implementation "org.koin:koin-android-viewmodel:$koin"
+    api "org.koin:koin-core:$koin"
+    api "org.koin:koin-android:$koin"
+    api "org.koin:koin-android-scope:$koin"
+    api "org.koin:koin-android-viewmodel:$koin"
 }
 repositories {
     mavenCentral()

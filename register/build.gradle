@@ -25,19 +25,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    api project(':core')
-    api project(':domain')
-    api project(':data')
-
-    //di
-    implementation "org.koin:koin-core:$koin"
-    implementation "org.koin:koin-android:$koin"
-    implementation "org.koin:koin-android:$koin"
-    implementation "org.koin:koin-android-scope:$koin"
-    implementation "org.koin:koin-android-viewmodel:$koin"
-
-    api "com.android.support:appcompat-v7:$supportLib"
-    api "com.android.support.constraint:constraint-layout:$constraintLayout"
+    implementation project(':core')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 }
