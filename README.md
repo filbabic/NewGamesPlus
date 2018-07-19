@@ -1,7 +1,5 @@
-# CoroutinesExpo
-Sample project depicting the use of Coroutines in Android networking. The base usage of coroutines is shown, for creating an
-async scope, pushing the request into a suspension function and returning it back to UI scope. Additionally a way to test the
-request/method is also shown, by using a CoroutineContext provider, allowing us to force the test into threads we want.
+# NewGames+
+My pet project depicting the use of Coroutines in Clean Architecture, using multi-module projects, Koin as a DI solution and much more.
 
 # Result<T>
 Result is a monad which allows for two cases to happen, never simultaneously. It's kinda like Either<T>, allowing us to either
@@ -15,7 +13,18 @@ pools. At first glance not very useful, but when it comes to testing, it enables
 main and io pools, allowing them to virtually run on the same thread, making testing of coroutines available.
 
 ## Side note
-This idea came from a combination of multiple ideas, throughout time. As it's a simple implementation and many people have
-tackled the same problem on their own, I hold no copyright or ownership of the said implementation. The final API came out
-through a friendly debate between my peers and myself. I haven't invented anything new, I just had a problem and solved it
-step by step, by both coming up with things and Googling out the issues at hand.
+Coroutine base setup with Result<T> monad and contextProviders came from a discussion, research and hacking things together. I did not create or copy a solution, I just merely built up from an idea, whilst helping myself to other people's examples all the same.
+  
+# Multi-module projects
+I'm trying to build a multi-module project, to better fit Google's guidelines, optimize build speed and dependency graph and potentially develop support for InstantApps. Additionally, multi-module projects have a core setup which takes Clean architecture in mind, and as such separates the `domain`, `data` and `device` modules into separate entities, used across the app.
+
+# Lifecycle handling
+Since the dawn of time (pretty much since Android's been out), there was a problem with configuration changes in apps. To mitigate this problem I'm using Scoping in my DI setup and Android Architecture Components, which should preserve ViewModel entitites through configuration change events.
+
+# Dependency Injection
+Dagger is great. It's fun. Amazing. It just is... Until something breaks, you have to add a new dependency, structure your DI graph a bit differently or you want to scope some modules.
+
+Then it's just a pain in the boilerplate ass. Being a Kotlin fanatic just made me fall in love instantly with `Koin`. It takes virtually 2 lines of code to scope modules, the dependency factories and beans are concise and clean, and the best part, no annotations!
+
+### P.S.
+If you're interested in commenting, helping out, testing, or really anything that might help me make this app come to life, be sure to let me know! :]
