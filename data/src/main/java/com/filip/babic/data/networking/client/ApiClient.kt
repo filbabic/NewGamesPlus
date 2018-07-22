@@ -1,4 +1,4 @@
-package com.filip.babic.data.api.client
+package com.filip.babic.data.networking.client
 
 import com.filip.babic.data.coroutineContext.CoroutineContextProvider
 import com.filip.babic.data.coroutineContext.CoroutineContextProviderImpl

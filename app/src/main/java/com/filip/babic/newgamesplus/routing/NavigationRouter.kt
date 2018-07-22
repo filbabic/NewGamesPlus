@@ -14,5 +14,8 @@ class NavigationRouter(private val activity: BaseActivity<*>) : Router {
 
     private fun startNextScreen(intent: Intent) = activity.startActivity(intent)
 
+    override fun onUserRegistered() {
+    }
+
     private inline fun <reified T : BaseActivity<*>> getIntent() = Intent(activity, T::class.java)
 }

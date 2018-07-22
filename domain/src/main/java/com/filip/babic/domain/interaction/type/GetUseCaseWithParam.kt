@@ -4,5 +4,5 @@ import com.filip.babic.domain.model.result.Result
 
 interface GetUseCaseWithParam<Param, Data : Any> {
 
-    suspend fun get(param: Param): Result<Data>
+    suspend fun run(param: Param): Result<Data>
 }

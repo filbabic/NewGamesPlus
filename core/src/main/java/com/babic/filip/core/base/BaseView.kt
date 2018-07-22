@@ -1,3 +1,12 @@
 package com.babic.filip.core.base
 
-interface BaseView
+interface BaseView {
+
+    fun showNetworkError()
+
+    fun showServerError()
+
+    fun showParseError()
+
+    fun showAuthenticationError()
+}

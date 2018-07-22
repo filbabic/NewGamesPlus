@@ -1,9 +1,9 @@
 package com.filip.babic.data.common
 
-import com.filip.babic.data.api.error.ApiDataTransformationException
-import com.filip.babic.data.api.error.AuthenticationError
-import com.filip.babic.data.api.error.NetworkException
-import com.filip.babic.data.api.error.ServerError
+import com.filip.babic.data.networking.error.ApiDataTransformationException
+import com.filip.babic.data.networking.error.AuthenticationError
+import com.filip.babic.data.networking.error.NetworkException
+import com.filip.babic.data.networking.error.ServerError
 import com.filip.babic.domain.model.result.Failure
 import com.filip.babic.domain.model.result.Mappable
 import com.filip.babic.domain.model.result.Result
@@ -35,7 +35,7 @@ suspend fun <T : Mappable<R>, R : Any> Call<T>.getResult(): Result<R> {
 
     val dataInvalidator: (Result<R>) -> Boolean = { data -> data is Failure && (data.error == NetworkException || data.error == ServerError) }
 
-    repeat(DEFAULT_RETRY_ATTEMPTS - 1) { //first we try to get the data two times, if it's okay, we return it
+    repeat(DEFAULT_RETRY_ATTEMPTS - 1) { //first we try to run the data two times, if it's okay, we return it
         val data = dataProvider()
 
         if (!dataInvalidator(data)) {

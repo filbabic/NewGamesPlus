@@ -5,9 +5,21 @@ import com.babic.filip.core.base.StateViewModel
 
 interface RegisterContract {
 
-    interface View : BaseView
+    interface View : BaseView {
+
+        fun showUserExistsError()
+
+        fun showInvalidCredentialsError()
+    }
 
     interface ViewModel : StateViewModel<RegisterViewState, View> {
 
+        fun usernameChanged(username: String)
+
+        fun emailChanged(email: String)
+
+        fun passwordChanged(password: String)
+
+        fun registerUser()
     }
 }

@@ -6,9 +6,6 @@ import android.support.v7.app.AppCompatActivity
 import com.babic.filip.core.common.subscribe
 import com.babic.filip.core.routing.Router
 import com.babic.filip.core.routing.RoutingDispatcher
-import com.filip.babic.data.api.error.ApiDataTransformationException
-import com.filip.babic.data.api.error.NetworkException
-import com.filip.babic.data.api.error.ServerError
 import kotlinx.coroutines.experimental.channels.ReceiveChannel
 import org.koin.android.scope.ext.android.scopedWith
 
@@ -20,7 +17,6 @@ abstract class BaseActivity<Data : Any> : AppCompatActivity(), BaseView {
         super.onCreate(savedInstanceState)
         setContentView(getLayout())
         getViewModel().viewReady(this)
-        addSubscription(getViewModel().errorState(), ::processError)
 
         scopedWith(getScope())
     }
@@ -34,6 +30,12 @@ abstract class BaseActivity<Data : Any> : AppCompatActivity(), BaseView {
         channel.subscribe(consumer)
     }
 
+    //override to provide extra behaviour for error handling, leave it as is when you don't need to handle certain errors
+    override fun showAuthenticationError() = Unit
+    override fun showNetworkError() = Unit
+    override fun showParseError() = Unit
+    override fun showServerError() = Unit
+
     override fun onStop() {
         channels.forEach(::unsubscribeChannel)
         channels.clear()
@@ -44,22 +46,6 @@ abstract class BaseActivity<Data : Any> : AppCompatActivity(), BaseView {
     private fun unsubscribeChannel(channel: ReceiveChannel<*>) {
         channel.cancel()
     }
-
-    protected fun processError(throwable: Throwable?) = when (throwable) {
-        is ServerError -> showServerError()
-        is ApiDataTransformationException -> showDataParseError()
-        is NetworkException -> showNetworkError()
-        else -> Unit
-    }
-
-    //override to provide network connection error logic
-    open fun showNetworkError() = Unit
-
-    //override to provide parsing error logic
-    open fun showDataParseError() = Unit
-
-    //override to provide server error logic
-    open fun showServerError() = Unit
 
     abstract fun getViewModel(): StateViewModel<Data, BaseView>
 

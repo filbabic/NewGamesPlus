@@ -1,1 +1,1 @@
-include ':app', ':domain', ':data', ':device', ':login', ':core', ':splash', ':register'
+include ':app', ':domain', ':data', ':device', ':login', ':core', ':splash', ':register', ':resources'

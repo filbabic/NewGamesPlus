@@ -16,5 +16,5 @@ val viewModelModule = module {
 
     module(LOGIN_SCOPE) { viewModel { LoginViewModel(get(LIVE_CONTEXT)) } }
 
-    module(REGISTER_SCOPE) { viewModel { RegisterViewModel(get(LIVE_CONTEXT)) } }
+    module(REGISTER_SCOPE) { viewModel { RegisterViewModel(get(LIVE_CONTEXT), get(), get()) } }
 }

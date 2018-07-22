@@ -4,6 +4,7 @@ import android.app.Application
 import com.filip.babic.data.di.networkingModule
 import com.filip.babic.device.di.appModule
 import com.filip.babic.newgamesplus.di.module.repositoryModule
+import com.filip.babic.newgamesplus.di.module.useCaseModule
 import com.filip.babic.newgamesplus.di.module.viewModelModule
 import com.filip.babic.newgamesplus.lifecycle.CustomLifecycleHandler
 import com.squareup.leakcanary.LeakCanary
@@ -20,7 +21,7 @@ class App : Application() {
         super.onCreate()
         instance = this
 
-        startKoin(this, listOf(appModule(), networkingModule(BuildConfig.DEBUG), repositoryModule, viewModelModule))
+        startKoin(this, listOf(appModule(), networkingModule(BuildConfig.DEBUG), repositoryModule, useCaseModule, viewModelModule))
 
         registerActivityLifecycleCallbacks(CustomLifecycleHandler())
 

@@ -15,6 +15,7 @@
             <option value="$PROJECT_DIR$/domain" />
             <option value="$PROJECT_DIR$/login" />
             <option value="$PROJECT_DIR$/register" />
+            <option value="$PROJECT_DIR$/resources" />
             <option value="$PROJECT_DIR$/splash" />
           </set>
         </option>

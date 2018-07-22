@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="PasswordInputStyle">
+        <item name="android:inputType">textPassword</item>
+        <item name="android:hint">@string/password_hint</item>
+    </style>
+
+    <style name="EmailInputStyle">
+        <item name="android:hint">@string/email_hint</item>
+        <item name="android:inputType">textEmailAddress</item>
+    </style>
+
+    <!-- todo add input field styles with design -->
+</resources>

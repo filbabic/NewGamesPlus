@@ -1,10 +1,10 @@
 package com.filip.babic.data.di
 
-import com.filip.babic.data.api.service.AuthApiService
 import com.filip.babic.data.coroutineContext.CoroutineContextProvider
 import com.filip.babic.data.coroutineContext.CoroutineContextProviderImpl
 import com.filip.babic.data.coroutineContext.TestCoroutineContextProviderImpl
-import com.filip.babic.device.preferences.PreferencesHelper
+import com.filip.babic.data.networking.service.AuthApiService
+import com.filip.babic.domain.repository.UserPreferencesRepository
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -26,7 +26,7 @@ fun networkingModule(isDebug: Boolean) = module {
 
     single {
         val interceptor = Interceptor {
-            val preferences = get<PreferencesHelper>()
+            val preferences = get<UserPreferencesRepository>()
 
             val request = it.request()
 

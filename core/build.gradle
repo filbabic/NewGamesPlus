@@ -26,12 +26,14 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    api project(':resources')
     api project(':data')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
     //general ui dependencies
     api "com.android.support:appcompat-v7:$supportLib"
+    api "com.android.support:design:$supportLib"
     api "com.android.support.constraint:constraint-layout:$constraintLayout"
 
     //architecture components

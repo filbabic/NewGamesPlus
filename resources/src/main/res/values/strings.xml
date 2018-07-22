@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">NewGames+</string>
+
+    <!-- general -->
+    <string name="username_hint">Enter your legendary nickname :]</string>
+    <string name="email_hint">Your E-mail goes here</string>
+    <string name="password_hint">Make it something as strong as Hulk</string>
+
+    <string name="username_empty_error">No name? How will people find you? :[</string>
+    <string name="username_invalid_error">Now it\'s something! But we need at least 6 characters</string>
+
+    <string name="password_empty_error">You need to protect your account with a password!</string>
+    <string name="password_invalid_error">You\'re getting there, but password should have at least 10 characters</string>
+
+    <string name="email_empty_error">We might need your email, so don\'t leave it empty!</string>
+    <string name="email_invalid_error">Ehhh, this isn\'t a valid email, you might be missing a few things…</string>
+
+    <!-- splash -->
+    <string name="register_button">Register</string>
+    <string name="login_button">Login</string>
+
+    <!-- register -->
+</resources>

@@ -29,3 +29,9 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 }
+
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
+}
