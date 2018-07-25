@@ -1,0 +1,63 @@
+package com.babic.filip.core.base
+
+import android.os.Bundle
+import android.support.annotation.LayoutRes
+import android.support.v4.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import com.babic.filip.core.common.subscribe
+import com.babic.filip.core.routing.Router
+import com.babic.filip.core.routing.RoutingDispatcher
+import kotlinx.coroutines.experimental.channels.ReceiveChannel
+import org.koin.android.scope.ext.android.scopedWith
+
+abstract class BaseFragment<Data : Any> : Fragment(), BaseView {
+
+    protected val channels = mutableSetOf<ReceiveChannel<*>>()
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(getLayout(), container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        getViewModel().viewReady(this)
+
+        scopedWith(getScope())
+    }
+
+    fun initRouting(routingDispatcher: RoutingDispatcher<Router>) {
+        getViewModel().setRoutingSource(routingDispatcher)
+    }
+
+    protected inline fun <reified T> addSubscription(channel: ReceiveChannel<T>, crossinline consumer: (T) -> Unit) {
+        channels.add(channel)
+        channel.subscribe(consumer)
+    }
+
+    //override to provide extra behaviour for error handling, leave it as is when you don't need to handle certain errors
+    override fun showAuthenticationError() = Unit
+
+    override fun showNetworkError() = Unit
+    override fun showParseError() = Unit
+    override fun showServerError() = Unit
+
+    override fun onStop() {
+        channels.forEach(::unsubscribeChannel)
+        channels.clear()
+        getViewModel().viewState().cancel()
+        super.onStop()
+    }
+
+    private fun unsubscribeChannel(channel: ReceiveChannel<*>) {
+        channel.cancel()
+    }
+
+    abstract fun getViewModel(): StateViewModel<Data, BaseView>
+
+    @LayoutRes
+    abstract fun getLayout(): Int
+
+    abstract fun getScope(): String
+}

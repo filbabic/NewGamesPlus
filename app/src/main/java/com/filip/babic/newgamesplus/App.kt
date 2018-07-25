@@ -3,6 +3,7 @@ package com.filip.babic.newgamesplus
 import android.app.Application
 import com.babic.filip.core.di.coreModule
 import com.babic.filip.login.di.loginModule
+import com.babic.filip.main.di.mainModule
 import com.babic.filip.networking.data.di.networkingModule
 import com.babic.filip.register.di.registerModule
 import com.babic.filip.splash.di.splashModule
@@ -37,6 +38,7 @@ class App : Application() {
             registerModule,
             splashModule,
             loginModule,
-            deviceModule
+            deviceModule,
+            mainModule
     )
 }

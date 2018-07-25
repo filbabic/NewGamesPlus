@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/topRated"
+        android:icon="@drawable/ic_top_rated_navigation"
+        android:orderInCategory="1"
+        android:title="@string/top_rated_navigation_item"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/upcoming"
+        android:icon="@drawable/ic_upcoming_navigation"
+        android:orderInCategory="2"
+        android:title="@string/upcoming_navigation_item"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/feed"
+        android:icon="@drawable/ic_feed_navigation"
+        android:orderInCategory="3"
+        android:title="@string/feed_navigation_item"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/messages"
+        android:icon="@drawable/ic_chat_navigation"
+        android:orderInCategory="4"
+        android:title="@string/messages_navigation_item"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/profile"
+        android:icon="@drawable/ic_profile_navigation"
+        android:orderInCategory="5"
+        android:title="@string/my_profile_navigation_item"
+        app:showAsAction="ifRoom"/>
+</menu>

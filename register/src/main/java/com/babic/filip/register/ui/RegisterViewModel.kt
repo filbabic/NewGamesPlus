@@ -1,7 +1,6 @@
 package com.babic.filip.register.ui
 
 import com.babic.filip.core.base.BaseViewModel
-import com.babic.filip.core.coroutineContext.CoroutineContextProvider
 import com.babic.filip.networking.data.error.ApiDataTransformationException
 import com.babic.filip.networking.data.error.AuthenticationError
 import com.babic.filip.networking.data.error.NetworkException
@@ -15,9 +14,8 @@ import com.babic.filip.register.domain.interaction.SaveUserLoginUseCase
 import com.babic.filip.register.domain.model.UserRegistration
 import kotlinx.coroutines.experimental.launch
 
-class RegisterViewModel(contextProvider: CoroutineContextProvider,
-                        private val registerUserUseCase: RegisterUserUseCase,
-                        private val saveUserLoginUseCase: SaveUserLoginUseCase) : BaseViewModel<RegisterViewState, RegisterContract.View>(contextProvider), RegisterContract.ViewModel {
+class RegisterViewModel(private val registerUserUseCase: RegisterUserUseCase,
+                        private val saveUserLoginUseCase: SaveUserLoginUseCase) : BaseViewModel<RegisterViewState, RegisterContract.View>(), RegisterContract.ViewModel {
 
     private val registerData = RegisterData()
 

@@ -9,7 +9,7 @@ import kotlinx.coroutines.experimental.channels.ReceiveChannel
 import kotlinx.coroutines.experimental.withContext
 import kotlin.coroutines.experimental.CoroutineContext
 
-abstract class BaseViewModel<Data : Any, View : BaseView>(private val contextProvider: CoroutineContextProvider) : ViewModel(), StateViewModel<Data, View> {
+abstract class BaseViewModel<Data : Any, View : BaseView> : ViewModel(), StateViewModel<Data, View> {
 
     private val bufferCapacity = 1
 
@@ -40,6 +40,12 @@ abstract class BaseViewModel<Data : Any, View : BaseView>(private val contextPro
     private val stateChannel by lazy { BroadcastChannel<Data>(bufferCapacity) }
 
     override fun viewState(): ReceiveChannel<Data> = stateChannel.openSubscription()
+
+    private lateinit var contextProvider: CoroutineContextProvider
+
+    override fun setCoroutineContextProvider(coroutineContextProvider: CoroutineContextProvider) {
+        this.contextProvider = coroutineContextProvider
+    }
 
     val main: CoroutineContext by lazy { contextProvider.main }
     val background: CoroutineContext by lazy { contextProvider.io }

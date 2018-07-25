@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#719B81</color>
+    <color name="colorPrimaryDark">#486D63</color>
+    <color name="colorSecondary">#DDD3AB</color>
+    <color name="colorAccent">#B00020</color>
+
+    <color name="navigation_item_color">#DDDDDD</color>
 </resources>

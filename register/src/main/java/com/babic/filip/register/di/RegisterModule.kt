@@ -1,6 +1,5 @@
 package com.babic.filip.register.di
 
-import com.babic.filip.core.di.LIVE_CONTEXT
 import com.babic.filip.register.data.networking.RegisterApiService
 import com.babic.filip.register.data.repository.RegisterRepositoryImpl
 import com.babic.filip.register.domain.interaction.RegisterUserUseCase
@@ -21,5 +20,5 @@ val registerModule = module(REGISTER_SCOPE) {
 
     single { RegisterRepositoryImpl(get()) as RegisterRepository }
 
-    viewModel { RegisterViewModel(get(LIVE_CONTEXT), get(), get()) }
+    viewModel { RegisterViewModel(get(), get()) }
 }

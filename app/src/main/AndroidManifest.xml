@@ -22,6 +22,7 @@
 
         <activity android:name="com.babic.filip.login.ui.LoginActivity"/>
         <activity android:name="com.babic.filip.register.ui.RegisterActivity"/>
+        <activity android:name="com.babic.filip.main.ui.MainActivity"/>
     </application>
 
 </manifest>

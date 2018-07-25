@@ -5,6 +5,7 @@ import android.app.Application
 import android.os.Bundle
 import com.babic.filip.core.base.BaseActivity
 import com.babic.filip.core.base.BaseViewModel
+import com.babic.filip.core.coroutineContext.CoroutineContextProviderImpl
 import com.babic.filip.core.routing.Router
 import com.babic.filip.core.routing.RoutingDispatcher
 import com.filip.babic.newgamesplus.routing.NavigationRouter
@@ -39,12 +40,15 @@ class CustomLifecycleHandler : Application.ActivityLifecycleCallbacks {
             val routingDispatcher = getRoutingDispatcher(this)
 
             baseViewModel?.setRoutingSource(routingDispatcher)
+            baseViewModel?.setCoroutineContextProvider(getCoroutineContextProvider())
         }
     }
 
     private fun getRoutingDispatcher(baseActivity: BaseActivity<*>): RoutingDispatcher<Router> {
-        val navigator = NavigationRouter(baseActivity)
+        val navigator = NavigationRouter(baseActivity, baseActivity.supportFragmentManager)
 
         return RoutingMediator(navigator)
     }
+
+    private fun getCoroutineContextProvider() = CoroutineContextProviderImpl()
 }
