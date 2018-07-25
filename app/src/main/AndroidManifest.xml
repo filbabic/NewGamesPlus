@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.babic.filip.splash.SplashActivity">
+        <activity android:name="com.babic.filip.splash.ui.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -20,8 +20,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.babic.filip.login.LoginActivity"/>
-        <activity android:name="com.babic.filip.register.RegisterActivity"/>
+        <activity android:name="com.babic.filip.login.ui.LoginActivity"/>
+        <activity android:name="com.babic.filip.register.ui.RegisterActivity"/>
     </application>
 
 </manifest>

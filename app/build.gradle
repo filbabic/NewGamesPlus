@@ -28,13 +28,15 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation project(':resources')
+    //core modules
     implementation project(':core')
+    implementation project(':networking')
 
     //feature-specific modules
     implementation project(':splash')
     implementation project(':login')
     implementation project(':register')
+    implementation project(':device')
 
     //leaks
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakCanary"

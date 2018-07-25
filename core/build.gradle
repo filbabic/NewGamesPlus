@@ -26,9 +26,6 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    api project(':resources')
-    api project(':data')
-
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
     //general ui dependencies
@@ -39,6 +36,10 @@ dependencies {
     //architecture components
     implementation "android.arch.lifecycle:viewmodel:$architectureComponents"
     kapt "android.arch.lifecycle:compiler:$architectureComponents"
+
+    //coroutines
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
 
     //di
     api "org.koin:koin-core:$koin"

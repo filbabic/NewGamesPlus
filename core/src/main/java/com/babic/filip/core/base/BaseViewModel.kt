@@ -1,15 +1,12 @@
 package com.babic.filip.core.base
 
 import android.arch.lifecycle.ViewModel
+import com.babic.filip.core.coroutineContext.CoroutineContextProvider
 import com.babic.filip.core.routing.Router
 import com.babic.filip.core.routing.RoutingDispatcher
-import com.filip.babic.data.coroutineContext.CoroutineContextProvider
-import com.filip.babic.data.networking.error.ApiDataTransformationException
-import com.filip.babic.data.networking.error.AuthenticationError
-import com.filip.babic.data.networking.error.NetworkException
-import com.filip.babic.data.networking.error.ServerError
 import kotlinx.coroutines.experimental.channels.BroadcastChannel
 import kotlinx.coroutines.experimental.channels.ReceiveChannel
+import kotlinx.coroutines.experimental.withContext
 import kotlin.coroutines.experimental.CoroutineContext
 
 abstract class BaseViewModel<Data : Any, View : BaseView>(private val contextProvider: CoroutineContextProvider) : ViewModel(), StateViewModel<Data, View> {
@@ -55,14 +52,6 @@ abstract class BaseViewModel<Data : Any, View : BaseView>(private val contextPro
         sendStateDownstream()
     }
 
-    protected fun processError(throwable: Throwable?) = when (throwable) {
-        is ServerError -> showServerError()
-        is ApiDataTransformationException -> showDataParseError()
-        is NetworkException -> showNetworkError()
-        is AuthenticationError -> showAuthenticationError()
-        else -> Unit
-    }
-
     //override to provide network connection error logic
     open fun showNetworkError() = view.showNetworkError()
 
@@ -95,5 +84,9 @@ abstract class BaseViewModel<Data : Any, View : BaseView>(private val contextPro
 
     fun dispatchRoutingAction(action: (Router) -> Unit) {
         router?.dispatchRoutingAction(action)
+    }
+
+    suspend fun <T : Any> getData(dataProvider: suspend () -> T): T {
+        return withContext(contextProvider.io) { dataProvider() }
     }
 }

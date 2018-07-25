@@ -3,8 +3,8 @@ package com.filip.babic.newgamesplus.routing
 import android.content.Intent
 import com.babic.filip.core.base.BaseActivity
 import com.babic.filip.core.routing.Router
-import com.babic.filip.login.LoginActivity
-import com.babic.filip.register.RegisterActivity
+import com.babic.filip.login.ui.LoginActivity
+import com.babic.filip.register.ui.RegisterActivity
 
 class NavigationRouter(private val activity: BaseActivity<*>) : Router {
 

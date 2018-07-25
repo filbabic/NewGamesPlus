@@ -3,11 +3,9 @@
 
     <style name="PasswordInputStyle">
         <item name="android:inputType">textPassword</item>
-        <item name="android:hint">@string/password_hint</item>
     </style>
 
     <style name="EmailInputStyle">
-        <item name="android:hint">@string/email_hint</item>
         <item name="android:inputType">textEmailAddress</item>
     </style>
 

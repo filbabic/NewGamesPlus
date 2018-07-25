@@ -34,7 +34,8 @@
             android:id="@+id/emailInput"
             style="@style/EmailInputStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:hint="@string/email_hint"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -50,7 +51,8 @@
             android:id="@+id/passwordInput"
             style="@style/PasswordInputStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:hint="@string/password_hint"/>
     </android.support.design.widget.TextInputLayout>
 
     <Button
