@@ -1,12 +1,10 @@
 package com.babic.filip.splash.ui
 
 import com.babic.filip.core.base.BaseViewModel
-import com.babic.filip.core.coroutineContext.CoroutineContextProvider
 import com.babic.filip.splash.domain.interaction.GetUserLoggedInUseCase
 import kotlinx.coroutines.experimental.launch
 
-class SplashViewModel(contextProvider: CoroutineContextProvider,
-                      private val getUserLoggedInUseCase: GetUserLoggedInUseCase) : BaseViewModel<SplashViewState, SplashContract.View>(contextProvider), SplashContract.ViewModel {
+class SplashViewModel(private val getUserLoggedInUseCase: GetUserLoggedInUseCase) : BaseViewModel<SplashViewState, SplashContract.View>(), SplashContract.ViewModel {
 
     override fun initialState(): SplashViewState = SplashViewState()
 
@@ -15,7 +13,7 @@ class SplashViewModel(contextProvider: CoroutineContextProvider,
             val isLoggedIn = getUserLoggedInUseCase.get()
 
             if (isLoggedIn) {
-                dispatchRoutingAction { it.showLogin() } //todo change to main when main is built
+                dispatchRoutingAction { it.showMain() }
             } else {
                 changeViewState { it.isLoggedIn = false }
             }

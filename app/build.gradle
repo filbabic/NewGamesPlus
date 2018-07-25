@@ -37,6 +37,7 @@ dependencies {
     implementation project(':login')
     implementation project(':register')
     implementation project(':device')
+    implementation project(':main')
 
     //leaks
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakCanary"

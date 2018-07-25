@@ -1,5 +1,6 @@
 package com.babic.filip.core.base
 
+import com.babic.filip.core.coroutineContext.CoroutineContextProvider
 import com.babic.filip.core.routing.Router
 import com.babic.filip.core.routing.RoutingDispatcher
 import kotlinx.coroutines.experimental.channels.ReceiveChannel
@@ -11,4 +12,6 @@ interface StateViewModel<Data : Any, View> {
     fun viewState(): ReceiveChannel<Data>
 
     fun setRoutingSource(routingDispatcher: RoutingDispatcher<Router>)
+
+    fun setCoroutineContextProvider(coroutineContextProvider: CoroutineContextProvider)
 }

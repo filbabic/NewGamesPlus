@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">main</string>
+    <string name="top_rated_navigation_item">Top rated</string>
+    <string name="upcoming_navigation_item">Upcoming</string>
+    <string name="feed_navigation_item">Feed</string>
+    <string name="messages_navigation_item">Messages</string>
+    <string name="my_profile_navigation_item">My profile</string>
+</resources>
