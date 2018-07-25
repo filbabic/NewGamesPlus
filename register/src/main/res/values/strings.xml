@@ -1,3 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">register</string>
+    <string name="register_button">Register</string>
+
+    <string name="username_hint">Enter your legendary nickname :]</string>
+    <string name="email_hint">Your E-mail goes here</string>
+    <string name="password_hint">Make it something as strong as Hulk</string>
+
+    <string name="username_empty_error">No name? How will people find you? :[</string>
+    <string name="username_invalid_error">Now it\'s something! But we need at least 6 characters</string>
+
+    <string name="password_empty_error">You need to protect your account with a password!</string>
+    <string name="password_invalid_error">You\'re getting there, but password should have at least 10 characters</string>
+
+    <string name="email_empty_error">We might need your email, so don\'t leave it empty!</string>
+    <string name="email_invalid_error">Ehhh, this isn\'t a valid email, you might be missing a few things…</string>
+
+    <string name="invalid_credentials_error">Cannot create a user with these credentials. :[</string>
+    <string name="network_error">Seems like your network is a bit off, can you try again?</string>
+    <string name="data_parse_error">The data seems to be wrong, please try again…</string>
+    <string name="general_server_error">Our servers are a bit rusty, can you try again?</string>
 </resources>

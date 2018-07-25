@@ -1,23 +1,22 @@
 package com.babic.filip.core.base
 
 import android.arch.lifecycle.ViewModel
+import com.babic.filip.core.coroutineContext.CoroutineContextProvider
 import com.babic.filip.core.routing.Router
 import com.babic.filip.core.routing.RoutingDispatcher
-import com.filip.babic.data.coroutineContext.CoroutineContextProvider
-import com.filip.babic.domain.model.result.Failure
-import com.filip.babic.domain.model.result.Result
 import kotlinx.coroutines.experimental.channels.BroadcastChannel
 import kotlinx.coroutines.experimental.channels.ReceiveChannel
+import kotlinx.coroutines.experimental.withContext
 import kotlin.coroutines.experimental.CoroutineContext
 
 abstract class BaseViewModel<Data : Any, View : BaseView>(private val contextProvider: CoroutineContextProvider) : ViewModel(), StateViewModel<Data, View> {
 
     private val bufferCapacity = 1
 
-    private lateinit var view: View
+    protected lateinit var view: View
 
     override fun viewReady(view: View) {
-        setView(view)
+        this.view = view
         checkInitialState()
         start()
     }
@@ -30,24 +29,17 @@ abstract class BaseViewModel<Data : Any, View : BaseView>(private val contextPro
         }
     }
 
-    private fun setView(view: View) {
-        this.view = view
-    }
-
     fun onDestroy() {
         router = null
         stateChannel.close()
-        errorChannel.close()
     }
 
     protected fun start() = Unit
 
     private lateinit var state: Data
     private val stateChannel by lazy { BroadcastChannel<Data>(bufferCapacity) }
-    private val errorChannel by lazy { BroadcastChannel<Throwable?>(bufferCapacity) }
 
     override fun viewState(): ReceiveChannel<Data> = stateChannel.openSubscription()
-    override fun errorState(): ReceiveChannel<Throwable?> = errorChannel.openSubscription()
 
     val main: CoroutineContext by lazy { contextProvider.main }
     val background: CoroutineContext by lazy { contextProvider.io }
@@ -60,17 +52,19 @@ abstract class BaseViewModel<Data : Any, View : BaseView>(private val contextPro
         sendStateDownstream()
     }
 
-    protected fun checkResultForError(result: Result<*>) {
-        if (result is Failure) pushError(result.error)
-    }
+    //override to provide network connection error logic
+    open fun showNetworkError() = view.showNetworkError()
 
-    protected fun pushError(error: Throwable?) {
-        if (!errorChannel.isClosedForSend) {
-            errorChannel.offer(error)
-        }
-    }
+    //override to provide parsing error logic
+    open fun showDataParseError() = view.showParseError()
 
-    protected fun changeStateData(editor: (Data) -> Unit) {
+    //override to provide server error logic
+    open fun showServerError() = view.showServerError()
+
+    //override to provide authentication error logic
+    open fun showAuthenticationError() = view.showAuthenticationError()
+
+    protected fun changeViewState(editor: (Data) -> Unit) {
         withState(editor)
 
         sendStateDownstream()
@@ -90,5 +84,9 @@ abstract class BaseViewModel<Data : Any, View : BaseView>(private val contextPro
 
     fun dispatchRoutingAction(action: (Router) -> Unit) {
         router?.dispatchRoutingAction(action)
+    }
+
+    suspend fun <T : Any> getData(dataProvider: suspend () -> T): T {
+        return withContext(contextProvider.io) { dataProvider() }
     }
 }

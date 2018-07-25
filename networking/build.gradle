@@ -1,0 +1,52 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 28
+
+
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation project(':device')
+
+    //networking
+    api "com.squareup.retrofit2:retrofit:$retrofit"
+    api "com.google.code.gson:gson:$gson"
+    api "com.squareup.okhttp3:logging-interceptor:$okHttp"
+    api "com.squareup.retrofit2:converter-gson:$retrofit"
+
+    //room database
+    api "android.arch.persistence.room:runtime:$room"
+    kapt "android.arch.persistence.room:compiler:$room"
+    api "android.arch.persistence.room:rxjava2:$room"
+
+    //coroutines
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
+
+    //di
+    implementation "org.koin:koin-core:$koin"
+    implementation "org.koin:koin-android:$koin"
+}

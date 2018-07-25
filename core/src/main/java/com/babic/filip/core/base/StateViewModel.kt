@@ -10,7 +10,5 @@ interface StateViewModel<Data : Any, View> {
 
     fun viewState(): ReceiveChannel<Data>
 
-    fun errorState(): ReceiveChannel<Throwable?>
-
     fun setRoutingSource(routingDispatcher: RoutingDispatcher<Router>)
 }
