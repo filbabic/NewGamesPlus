@@ -4,9 +4,11 @@ import android.content.Intent
 import android.support.v4.app.FragmentManager
 import com.babic.filip.core.R
 import com.babic.filip.core.base.BaseActivity
+import com.babic.filip.core.common.replace
 import com.babic.filip.core.routing.Router
 import com.babic.filip.login.ui.LoginActivity
 import com.babic.filip.main.ui.MainActivity
+import com.babic.filip.main.ui.RefreshablePage
 import com.babic.filip.main.ui.topRated.TopRatedGamesFragment
 import com.babic.filip.register.ui.RegisterActivity
 
@@ -16,24 +18,26 @@ class NavigationRouter(private val activity: BaseActivity<*>, private val fragme
         val containerId: Int = R.id.fragment_container
     }
 
-    //activity based transitions
+    private var refreshablePage: RefreshablePage? = null
+
+    /**
+     * Activity based transitions
+     * **/
     override fun showLogin() = startNextScreen(getIntent<LoginActivity>())
 
     override fun showRegister() = startNextScreen(getIntent<RegisterActivity>())
 
     override fun showMain() = startNextScreen(getIntent<MainActivity>().apply { flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP })
 
-    private fun startNextScreen(intent: Intent) = activity.startActivity(intent)
+    override fun showGameDetails(gameId: String) {
+    }
 
     override fun onUserRegistered() = showMain()
 
-    private inline fun <reified T : BaseActivity<*>> getIntent() = Intent(activity, T::class.java)
-
-
-    //fragment based transitions
-
+    /**
+     * Fragment based transitions
+     * **/
     override fun showFeed() {
-        val newFragment = TopRatedGamesFragment()
     }
 
     override fun showMessages() {
@@ -43,10 +47,23 @@ class NavigationRouter(private val activity: BaseActivity<*>, private val fragme
     }
 
     override fun showTopRated() {
+        val newFragment = TopRatedGamesFragment()
+        refreshablePage = newFragment
+
+        fragmentManager.replace(newFragment, containerId)
     }
 
     override fun showUpcoming() {
     }
 
+    override fun refreshPage() {
+        refreshablePage?.refresh()
+    }
 
+    /**
+     * Base setup
+     * **/
+    private fun startNextScreen(intent: Intent) = activity.startActivity(intent)
+
+    private inline fun <reified T : BaseActivity<*>> getIntent() = Intent(activity, T::class.java)
 }

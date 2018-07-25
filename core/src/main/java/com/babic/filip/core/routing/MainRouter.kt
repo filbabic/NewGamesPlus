@@ -11,4 +11,8 @@ interface MainRouter {
     fun showMessages()
 
     fun showMyProfile()
+
+    fun refreshPage()
+
+    fun showGameDetails(gameId: String)
 }
