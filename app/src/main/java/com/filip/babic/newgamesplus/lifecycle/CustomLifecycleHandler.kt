@@ -37,10 +37,12 @@ class CustomLifecycleHandler : Application.ActivityLifecycleCallbacks {
         baseActivity?.run {
             val baseViewModel = getViewModel() as? BaseViewModel<*, *>
 
-            val routingDispatcher = getRoutingDispatcher(this)
+            baseViewModel?.apply {
+                val routingDispatcher = getRoutingDispatcher(baseActivity)
 
-            baseViewModel?.setRoutingSource(routingDispatcher)
-            baseViewModel?.setCoroutineContextProvider(getCoroutineContextProvider())
+                setRoutingSource(routingDispatcher)
+                setCoroutineContextProvider(getCoroutineContextProvider())
+            }
         }
     }
 
