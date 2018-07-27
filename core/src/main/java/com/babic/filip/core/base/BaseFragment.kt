@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.babic.filip.core.common.subscribe
+import com.babic.filip.core.coroutineContext.CoroutineContextProvider
 import com.babic.filip.core.routing.Router
 import com.babic.filip.core.routing.RoutingDispatcher
 import kotlinx.coroutines.experimental.channels.ReceiveChannel
@@ -20,15 +21,16 @@ abstract class BaseFragment<Data : Any> : Fragment(), BaseView {
         return inflater.inflate(getLayout(), container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         getViewModel().viewReady(this)
 
         scopedWith(getScope())
     }
 
-    fun initRouting(routingDispatcher: RoutingDispatcher<Router>) {
+    fun initViewModel(routingDispatcher: RoutingDispatcher<Router>, coroutineContextProvider: CoroutineContextProvider) {
         getViewModel().setRoutingSource(routingDispatcher)
+        getViewModel().setCoroutineContextProvider(coroutineContextProvider)
     }
 
     protected inline fun <reified T> addSubscription(channel: ReceiveChannel<T>, crossinline consumer: (T) -> Unit) {
@@ -48,6 +50,13 @@ abstract class BaseFragment<Data : Any> : Fragment(), BaseView {
         channels.clear()
         getViewModel().viewState().cancel()
         super.onStop()
+    }
+
+    override fun onDestroy() {
+        val baseViewModel = getViewModel() as? BaseViewModel<*, *>
+        baseViewModel?.onDestroy()
+
+        super.onDestroy()
     }
 
     private fun unsubscribeChannel(channel: ReceiveChannel<*>) {

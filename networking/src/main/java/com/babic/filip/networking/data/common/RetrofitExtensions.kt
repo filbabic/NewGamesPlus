@@ -1,5 +1,6 @@
 package com.babic.filip.networking.data.common
 
+import com.babic.filip.networking.BuildConfig
 import com.babic.filip.networking.data.error.ApiDataTransformationException
 import com.babic.filip.networking.data.error.AuthenticationError
 import com.babic.filip.networking.data.error.NetworkException
@@ -32,6 +33,10 @@ suspend fun <T : Mappable<R>, R : Any> Call<T>.getResult(): Result<R> {
 
             result ?: errorResult
         } catch (error: Throwable) {
+            if (BuildConfig.DEBUG) {
+                error.printStackTrace()
+            }
+
             Failure(mapError(error))
         }
     }
@@ -46,8 +51,11 @@ suspend fun <T : Mappable<R>, R : Any> Call<T>.getResult(): Result<R> {
 
     val dataInvalidator: (Result<R>) -> Boolean = { data -> data is Failure && (data.error === NetworkException || data.error == ServerError) }
 
-    repeat(DEFAULT_RETRY_ATTEMPTS - 1) {
-        delay(REPEAT_DELAY, TimeUnit.SECONDS)
+    repeat(DEFAULT_RETRY_ATTEMPTS - 1) { attempt ->
+        if (attempt != 0) {
+            delay(REPEAT_DELAY, TimeUnit.SECONDS)
+        }
+
         //first we try to run the data two times, if it's okay, we return it
         val data = dataProvider()
 

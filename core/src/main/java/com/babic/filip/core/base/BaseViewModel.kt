@@ -13,7 +13,7 @@ abstract class BaseViewModel<Data : Any, View : BaseView> : ViewModel(), StateVi
 
     private val bufferCapacity = 1
 
-    protected lateinit var view: View
+    protected var view: View? = null
 
     override fun viewReady(view: View) {
         this.view = view
@@ -31,6 +31,7 @@ abstract class BaseViewModel<Data : Any, View : BaseView> : ViewModel(), StateVi
 
     fun onDestroy() {
         router = null
+        view = null
         stateChannel.close()
     }
 
@@ -59,16 +60,20 @@ abstract class BaseViewModel<Data : Any, View : BaseView> : ViewModel(), StateVi
     }
 
     //override to provide network connection error logic
-    open fun showNetworkError() = view.showNetworkError()
+    open fun showNetworkError() = runViewCommand { it.showNetworkError() }
 
     //override to provide parsing error logic
-    open fun showDataParseError() = view.showParseError()
+    open fun showDataParseError() = runViewCommand { it.showParseError() }
 
     //override to provide server error logic
-    open fun showServerError() = view.showServerError()
+    open fun showServerError() = runViewCommand { it.showServerError() }
 
     //override to provide authentication error logic
-    open fun showAuthenticationError() = view.showAuthenticationError()
+    open fun showAuthenticationError() = runViewCommand { it.showAuthenticationError() }
+
+    protected fun runViewCommand(command: (View) -> Unit) {
+        view?.run(command)
+    }
 
     protected fun changeViewState(editor: (Data) -> Unit) {
         withState(editor)

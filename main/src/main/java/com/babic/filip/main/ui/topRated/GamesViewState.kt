@@ -1,4 +1,6 @@
 package com.babic.filip.main.ui.topRated
 
-class GamesViewState {
-}
+import com.babic.filip.main.domain.model.Game
+
+class GamesViewState(var games: List<Game> = listOf(),
+                     var isLoading: Boolean = true)

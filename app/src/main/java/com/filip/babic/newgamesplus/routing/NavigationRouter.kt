@@ -2,7 +2,6 @@ package com.filip.babic.newgamesplus.routing
 
 import android.content.Intent
 import android.support.v4.app.FragmentManager
-import com.babic.filip.core.R
 import com.babic.filip.core.base.BaseActivity
 import com.babic.filip.core.common.replace
 import com.babic.filip.core.routing.Router
@@ -11,11 +10,12 @@ import com.babic.filip.main.ui.MainActivity
 import com.babic.filip.main.ui.RefreshablePage
 import com.babic.filip.main.ui.topRated.TopRatedGamesFragment
 import com.babic.filip.register.ui.RegisterActivity
+import com.filip.babic.newgamesplus.R
 
 class NavigationRouter(private val activity: BaseActivity<*>, private val fragmentManager: FragmentManager) : Router {
 
     companion object {
-        val containerId: Int = R.id.fragment_container
+        const val containerId: Int = R.id.fragmentContainer
     }
 
     private var refreshablePage: RefreshablePage? = null
