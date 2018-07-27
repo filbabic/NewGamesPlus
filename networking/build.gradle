@@ -50,3 +50,9 @@ dependencies {
     implementation "org.koin:koin-core:$koin"
     implementation "org.koin:koin-android:$koin"
 }
+
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
+}
