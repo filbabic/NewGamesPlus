@@ -7,5 +7,20 @@ interface MainContract {
 
     interface View : BaseView
 
-    interface ViewModel : StateViewModel<MainViewState, View>
+    interface ViewModel : StateViewModel<MainViewState, View> {
+
+        fun setCurrentPage(selectedPage: Int)
+
+        fun showTopRated()
+
+        fun showUpcoming()
+
+        fun showFeed()
+
+        fun showMessages()
+
+        fun showMyProfile()
+
+        fun refreshPage()
+    }
 }

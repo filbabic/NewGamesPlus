@@ -1,19 +1,50 @@
 package com.babic.filip.main.ui.topRated
 
 import com.babic.filip.core.base.BaseViewModel
+import com.babic.filip.main.domain.interaction.GetTopRatedGamesUseCase
 import com.babic.filip.main.domain.model.Game
+import com.babic.filip.networking.data.model.doOnError
+import com.babic.filip.networking.data.model.doOnSuccess
+import kotlinx.coroutines.experimental.launch
 
-class TopRatedGamesViewModel : BaseViewModel<GamesViewState, TopRatedGamesContract.View>(), TopRatedGamesContract.ViewModel {
+class TopRatedGamesViewModel(private val getTopRatedGamesUseCase: GetTopRatedGamesUseCase) : BaseViewModel<GamesViewState, TopRatedGamesContract.View>(), TopRatedGamesContract.ViewModel {
+
+    private var page = 0
 
     override fun initialState(): GamesViewState = GamesViewState()
 
     override fun getTopRatedGames() {
+        launch(main) {
+            changeViewState { it.isLoading = true }
+
+            val data = getData { getTopRatedGamesUseCase.run(page) }
+
+            data.doOnSuccess(::onDataLoaded).doOnError { error ->
+                changeViewState { it.isLoading = false }
+                processError(error)
+            }
+        }
+    }
+
+    private fun onDataLoaded(games: List<Game>) {
+        changeViewState { viewState ->
+            val allItems = if (page == 0) games else viewState.games + games
+
+            viewState.games = allItems
+            viewState.isLoading = false
+        }
+
+        page++
+    }
+
+    private fun processError(error: Throwable?) {
+        //todo add error handling
     }
 
     override fun refresh() {
+        page = 0
+        getTopRatedGames()
     }
 
-    override fun showDetails(game: Game) {
-        dispatchRoutingAction { it.showGameDetails(game.id) }
-    }
+    override fun showDetails(game: Game) = dispatchRoutingAction { it.showGameDetails(game.id) }
 }

@@ -8,7 +8,7 @@ import org.koin.dsl.module.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-private const val BASE_URL: String = "http://api.openweathermap.org/"
+private const val BASE_URL: String = "https://api-endpoint.igdb.com" //todo change this to actual server endpoint
 private const val BASE_URL_DEBUG: String = "http://10.0.2.2:3000"
 
 private const val KEY_AUTHORIZATION = "authorization"

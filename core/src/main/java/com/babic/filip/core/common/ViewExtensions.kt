@@ -1,5 +1,6 @@
 package com.babic.filip.core.common
 
+import android.support.design.widget.BottomNavigationView
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -27,4 +28,16 @@ class SimpleTextWatcher(private inline val onTextChangedHandler: (String) -> Uni
     override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) = Unit
 
     override fun onTextChanged(input: CharSequence?, p1: Int, p2: Int, p3: Int) = Unit
+}
+
+
+inline fun BottomNavigationView.onNavigationItemSelected(crossinline onItemSelectedHandler: (Int) -> Unit) {
+    setOnNavigationItemSelectedListener {
+        onItemSelectedHandler(it.itemId)
+        true
+    }
+}
+
+inline fun BottomNavigationView.onNavigationItemReselected(crossinline onItemReselected: () -> Unit) {
+    setOnNavigationItemReselectedListener { onItemReselected() }
 }

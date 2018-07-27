@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.annotation.LayoutRes
 import android.support.v7.app.AppCompatActivity
 import com.babic.filip.core.common.subscribe
+import com.babic.filip.core.coroutineContext.CoroutineContextProvider
 import com.babic.filip.core.routing.Router
 import com.babic.filip.core.routing.RoutingDispatcher
 import kotlinx.coroutines.experimental.channels.ReceiveChannel
@@ -16,13 +17,14 @@ abstract class BaseActivity<Data : Any> : AppCompatActivity(), BaseView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(getLayout())
-        getViewModel().viewReady(this)
-
         scopedWith(getScope())
+
+        getViewModel().viewReady(this)
     }
 
-    fun initRouting(routingDispatcher: RoutingDispatcher<Router>) {
+    fun initViewModel(routingDispatcher: RoutingDispatcher<Router>, contextProvider: CoroutineContextProvider) {
         getViewModel().setRoutingSource(routingDispatcher)
+        getViewModel().setCoroutineContextProvider(contextProvider)
     }
 
     protected inline fun <reified T> addSubscription(channel: ReceiveChannel<T>, crossinline consumer: (T) -> Unit) {
@@ -41,6 +43,13 @@ abstract class BaseActivity<Data : Any> : AppCompatActivity(), BaseView {
         channels.clear()
         getViewModel().viewState().cancel()
         super.onStop()
+    }
+
+    override fun onDestroy() {
+        val baseViewModel = getViewModel() as? BaseViewModel<*, *>
+        baseViewModel?.onDestroy()
+
+        super.onDestroy()
     }
 
     private fun unsubscribeChannel(channel: ReceiveChannel<*>) {

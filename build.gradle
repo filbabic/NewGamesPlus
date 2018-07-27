@@ -35,6 +35,7 @@ buildscript {
     ext.mockitoKotlin = "1.5.0"
     ext.koin = "1.0.0-beta-3"
     ext.leakCanary = "1.5.4"
+    ext.glide = "4.7.1"
 }
 
 allprojects {

@@ -2,7 +2,7 @@ package com.babic.filip.main.ui.topRated
 
 import android.os.Bundle
 import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.GridLayoutManager
 import android.view.View
 import com.babic.filip.core.base.BaseFragment
 import com.babic.filip.core.base.BaseView
@@ -11,6 +11,7 @@ import com.babic.filip.core.common.subscribe
 import com.babic.filip.main.R
 import com.babic.filip.main.domain.model.Game
 import com.babic.filip.main.ui.RefreshablePage
+import com.babic.filip.main.ui.listener.LazyLoadingListener
 import com.babic.filip.main.ui.topRated.list.GameAdapter
 import kotlinx.android.synthetic.main.fragment_top_rated_games.*
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -34,18 +35,20 @@ class TopRatedGamesFragment : BaseFragment<GamesViewState>(), RefreshablePage {
         gamesList.apply {
             itemAnimator = DefaultItemAnimator()
             adapter = gamesAdapter
-            layoutManager = LinearLayoutManager(activity)
+            layoutManager = GridLayoutManager(activity, 2)
+            addOnScrollListener(LazyLoadingListener(topRatedViewModel::getTopRatedGames))
         }
     }
 
     private fun onDataChanged(gamesViewState: GamesViewState) {
-
+        gamesAdapter.setData(gamesViewState.games)
+        pullToRefresh.isRefreshing = gamesViewState.isLoading
     }
 
     override fun refresh() {
-        //todo scroll to top, or refresh if it's already scrolled
+        val directionTop = -1
 
-        if (!gamesList.canScrollVertically(-1)) {
+        if (!gamesList.canScrollVertically(directionTop)) {
             topRatedViewModel.refresh()
         } else {
             gamesList.smoothScrollToPosition(0)
@@ -60,4 +63,4 @@ class TopRatedGamesFragment : BaseFragment<GamesViewState>(), RefreshablePage {
     override fun getScope(): String = TOP_RATED_GAMES_SCOPE
 }
 
-private const val TOP_RATED_GAMES_SCOPE = "Top Rated"
+const val TOP_RATED_GAMES_SCOPE = "Top Rated"
