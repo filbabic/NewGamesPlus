@@ -5,20 +5,28 @@ import com.babic.filip.core.coroutineContext.CoroutineContextProvider
 import com.babic.filip.core.routing.Router
 import com.babic.filip.core.routing.RoutingDispatcher
 import kotlinx.coroutines.experimental.channels.BroadcastChannel
+import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.ReceiveChannel
+import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.withContext
 import kotlin.coroutines.experimental.CoroutineContext
 
 abstract class BaseViewModel<Data : Any, View : BaseView> : ViewModel(), StateViewModel<Data, View> {
 
-    private val bufferCapacity = 1
-
     protected var view: View? = null
 
     override fun viewReady(view: View) {
         this.view = view
+        checkStateChannel()
         checkInitialState()
         start()
+    }
+
+    private fun checkStateChannel() {
+        if (stateChannel.isClosedForSend) {
+            stateChannel = createStateChannel()
+            checkInitialState()
+        }
     }
 
     abstract fun initialState(): Data
@@ -37,10 +45,12 @@ abstract class BaseViewModel<Data : Any, View : BaseView> : ViewModel(), StateVi
 
     protected fun start() = Unit
 
-    private lateinit var state: Data
-    private val stateChannel by lazy { BroadcastChannel<Data>(bufferCapacity) }
+    protected lateinit var state: Data
+    private var stateChannel = createStateChannel()
 
     override fun viewState(): ReceiveChannel<Data> = stateChannel.openSubscription()
+
+    private fun createStateChannel() = BroadcastChannel<Data>(Channel.CONFLATED)
 
     private lateinit var contextProvider: CoroutineContextProvider
 
@@ -51,7 +61,12 @@ abstract class BaseViewModel<Data : Any, View : BaseView> : ViewModel(), StateVi
     val main: CoroutineContext by lazy { contextProvider.main }
     val background: CoroutineContext by lazy { contextProvider.io }
 
-    protected fun withState(consumer: (Data) -> Unit) = consumer(state)
+    protected inline fun withState(consumer: (Data) -> Unit) = consumer(state)
+    protected inline fun <T> fromState(consumer: (Data) -> T) = consumer(state)
+
+    protected inline fun execute(crossinline action: suspend () -> Unit) {
+        launch(main) { action() }
+    }
 
     protected fun pushViewState(viewState: Data) {
         this.state = viewState

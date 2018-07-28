@@ -23,6 +23,7 @@
         <activity android:name="com.babic.filip.login.ui.LoginActivity"/>
         <activity android:name="com.babic.filip.register.ui.RegisterActivity"/>
         <activity android:name="com.babic.filip.main.ui.MainActivity"/>
+        <activity android:name="com.babic.filip.gamedetails.ui.GameDetailsActivity"/>
     </application>
 
 </manifest>

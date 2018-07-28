@@ -18,16 +18,9 @@ class MainActivity : BaseActivity<MainViewState>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initUi()
-
         mainViewModel.viewState().subscribe(::onDataChanged)
 
-        initialiseStartingPage(savedInstanceState)
-    }
-
-    private fun initialiseStartingPage(savedInstanceState: Bundle?) {
-        if (savedInstanceState == null) {
-            mainViewModel.showTopRated()
-        }
+        savedInstanceState ?: mainViewModel.showTopRated()
     }
 
     private fun onDataChanged(mainViewState: MainViewState) {
@@ -36,7 +29,6 @@ class MainActivity : BaseActivity<MainViewState>() {
 
     private fun initUi() {
         bottomNavigation.onNavigationItemSelected { selectedPage -> changePage(selectedPage) }
-
         bottomNavigation.onNavigationItemReselected { mainViewModel.refreshPage() }
     }
 
