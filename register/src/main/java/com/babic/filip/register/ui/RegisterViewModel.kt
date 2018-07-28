@@ -12,7 +12,6 @@ import com.babic.filip.register.data.validation.RegisterDataValidator
 import com.babic.filip.register.domain.interaction.RegisterUserUseCase
 import com.babic.filip.register.domain.interaction.SaveUserLoginUseCase
 import com.babic.filip.register.domain.model.UserRegistration
-import kotlinx.coroutines.experimental.launch
 
 class RegisterViewModel(private val registerUserUseCase: RegisterUserUseCase,
                         private val saveUserLoginUseCase: SaveUserLoginUseCase) : BaseViewModel<RegisterViewState, RegisterContract.View>(), RegisterContract.ViewModel {
@@ -52,7 +51,7 @@ class RegisterViewModel(private val registerUserUseCase: RegisterUserUseCase,
         }
     }
 
-    private fun processRegistration(registerData: RegisterData) = launch(main) {
+    private fun processRegistration(registerData: RegisterData) = execute {
         val userRegistrationResult = getData { registerUserUseCase.run(registerData) }
 
         userRegistrationResult.doOnSuccess(::onUserRegistered).doOnError(::processError)

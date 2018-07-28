@@ -5,7 +5,6 @@ import com.babic.filip.main.domain.interaction.GetTopRatedGamesUseCase
 import com.babic.filip.main.domain.model.Game
 import com.babic.filip.networking.data.model.doOnError
 import com.babic.filip.networking.data.model.doOnSuccess
-import kotlinx.coroutines.experimental.launch
 
 class TopRatedGamesViewModel(private val getTopRatedGamesUseCase: GetTopRatedGamesUseCase) : BaseViewModel<GamesViewState, TopRatedGamesContract.View>(), TopRatedGamesContract.ViewModel {
 
@@ -13,8 +12,10 @@ class TopRatedGamesViewModel(private val getTopRatedGamesUseCase: GetTopRatedGam
 
     override fun initialState(): GamesViewState = GamesViewState()
 
-    override fun getTopRatedGames() {
-        launch(main) {
+    override fun getTopRatedGames() = execute {
+        val isLoading = fromState { it.isLoading }
+
+        if (!isLoading) {
             changeViewState { it.isLoading = true }
 
             val data = getData { getTopRatedGamesUseCase.run(page) }
@@ -27,14 +28,15 @@ class TopRatedGamesViewModel(private val getTopRatedGamesUseCase: GetTopRatedGam
     }
 
     private fun onDataLoaded(games: List<Game>) {
+        val currentPage = page
+        page++
+
         changeViewState { viewState ->
-            val allItems = if (page == 0) games else viewState.games + games
+            val allItems = if (currentPage == 0) games else viewState.games + games
 
             viewState.games = allItems
             viewState.isLoading = false
         }
-
-        page++
     }
 
     private fun processError(error: Throwable?) {

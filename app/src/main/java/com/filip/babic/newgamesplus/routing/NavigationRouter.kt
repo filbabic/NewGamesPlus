@@ -5,6 +5,8 @@ import android.support.v4.app.FragmentManager
 import com.babic.filip.core.base.BaseActivity
 import com.babic.filip.core.common.replace
 import com.babic.filip.core.routing.Router
+import com.babic.filip.gamedetails.ui.GameDetailsActivity
+import com.babic.filip.gamedetails.ui.GameDetailsActivity.Companion.KEY_GAME_ID
 import com.babic.filip.login.ui.LoginActivity
 import com.babic.filip.main.ui.MainActivity
 import com.babic.filip.main.ui.RefreshablePage
@@ -29,8 +31,7 @@ class NavigationRouter(private val activity: BaseActivity<*>, private val fragme
 
     override fun showMain() = startNextScreen(getIntent<MainActivity>().apply { flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP })
 
-    override fun showGameDetails(gameId: String) {
-    }
+    override fun showGameDetails(gameId: String) = startNextScreen(getIntent<GameDetailsActivity>().apply { putExtra(KEY_GAME_ID, gameId) })
 
     override fun onUserRegistered() = showMain()
 

@@ -32,7 +32,7 @@ class GameAdapter(private val onGameClicked: (Game) -> Unit) : RecyclerView.Adap
     class GameViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun showData(game: Game, onGameClicked: (Game) -> Unit) = with(itemView) {
-            gameImage.loadImage(game.cover.url)
+            gameImage.loadImage(game.cover)
 
             setOnClickListener { onGameClicked(game) }
         }

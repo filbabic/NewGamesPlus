@@ -24,9 +24,9 @@ class TopRatedGamesFragment : BaseFragment<GamesViewState>(), RefreshablePage {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUi()
-
         topRatedViewModel.viewState().subscribe(::onDataChanged)
-        topRatedViewModel.getTopRatedGames()
+
+        savedInstanceState ?: topRatedViewModel.getTopRatedGames()
     }
 
     private fun initUi() {
