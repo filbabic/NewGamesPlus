@@ -7,5 +7,5 @@ import com.babic.filip.networking.data.model.Result
 
 class GetGameDetailsUseCase(private val gameDetailsRepository: GameDetailsRepository) : GetUseCaseWithParam<String, Result<GameDetails>> {
 
-    override suspend fun run(param: String): Result<GameDetails> = gameDetailsRepository.getGameDetails(param)
+    override suspend fun invoke(param: String): Result<GameDetails> = gameDetailsRepository.getGameDetails(param)
 }

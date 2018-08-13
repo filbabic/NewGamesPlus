@@ -7,5 +7,5 @@ import com.babic.filip.networking.data.model.Result
 
 class GetTopRatedGamesUseCase(private val repository: GamesRepository) : GetUseCaseWithParam<Int, Result<List<Game>>> {
 
-    override suspend fun run(param: Int): Result<List<Game>> = repository.getTopRatedGames(param)
+    override suspend operator fun invoke(param: Int): Result<List<Game>> = repository.getTopRatedGames(param)
 }

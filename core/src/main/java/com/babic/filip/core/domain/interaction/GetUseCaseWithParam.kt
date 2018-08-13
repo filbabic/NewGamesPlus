@@ -2,5 +2,5 @@ package com.babic.filip.core.domain.interaction
 
 interface GetUseCaseWithParam<Param, Data : Any> {
 
-    suspend fun run(param: Param): Data
+    suspend operator fun invoke(param: Param): Data
 }

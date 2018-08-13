@@ -5,5 +5,5 @@ import com.filip.babic.device.repository.UserPreferencesRepository
 
 class GetUserLoggedInUseCase(private val userPreferencesRepository: UserPreferencesRepository) : GetUseCase<Boolean> {
 
-    override suspend fun get(): Boolean = userPreferencesRepository.isLoggedIn()
+    override suspend operator fun invoke(): Boolean = userPreferencesRepository.isLoggedIn()
 }

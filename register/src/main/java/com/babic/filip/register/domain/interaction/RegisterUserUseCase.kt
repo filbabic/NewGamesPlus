@@ -8,5 +8,5 @@ import com.babic.filip.register.domain.repository.RegisterRepository
 
 class RegisterUserUseCase(private val registerRepository: RegisterRepository) : GetUseCaseWithParam<RegisterData, Result<UserRegistration>> {
 
-    override suspend fun run(param: RegisterData): Result<UserRegistration> = registerRepository.registerUser(param)
+    override suspend operator fun invoke(param: RegisterData): Result<UserRegistration> = registerRepository.registerUser(param)
 }
