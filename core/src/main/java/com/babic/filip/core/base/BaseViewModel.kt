@@ -15,6 +15,8 @@ abstract class BaseViewModel<Data : Any, View : BaseView> : ViewModel(), StateVi
 
     protected var view: View? = null
 
+    //todo cancellation when leaving the screen or something
+
     override fun viewReady(view: View) {
         this.view = view
         checkStateChannel()

@@ -6,7 +6,7 @@ import com.babic.filip.gamedetails.domain.model.GameDetails
 import com.babic.filip.networking.data.model.doOnError
 import com.babic.filip.networking.data.model.doOnSuccess
 
-class GameDetailsViewModel(private val getGameDetailsUseCase: GetGameDetailsUseCase) : BaseViewModel<GameDetailsViewState, GameDetailsContract.View>(), GameDetailsContract.ViewModel {
+class GameDetailsViewModel(private val getGameDetails: GetGameDetailsUseCase) : BaseViewModel<GameDetailsViewState, GameDetailsContract.View>(), GameDetailsContract.ViewModel {
 
     private var gameId: String = ""
 
@@ -22,7 +22,7 @@ class GameDetailsViewModel(private val getGameDetailsUseCase: GetGameDetailsUseC
     }
 
     private fun getDetails() = execute {
-        val result = getData { getGameDetailsUseCase.run(gameId) }
+        val result = getData { getGameDetails(gameId) }
 
         result.doOnSuccess(::onDataLoaded).doOnError(::processError)
     }

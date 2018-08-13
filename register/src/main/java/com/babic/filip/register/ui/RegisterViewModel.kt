@@ -10,11 +10,11 @@ import com.babic.filip.networking.data.model.doOnSuccess
 import com.babic.filip.register.data.model.RegisterData
 import com.babic.filip.register.data.validation.RegisterDataValidator
 import com.babic.filip.register.domain.interaction.RegisterUserUseCase
-import com.babic.filip.register.domain.interaction.SaveUserLoginUseCase
+import com.babic.filip.register.domain.interaction.SaveUserTokenUseCase
 import com.babic.filip.register.domain.model.UserRegistration
 
-class RegisterViewModel(private val registerUserUseCase: RegisterUserUseCase,
-                        private val saveUserLoginUseCase: SaveUserLoginUseCase) : BaseViewModel<RegisterViewState, RegisterContract.View>(), RegisterContract.ViewModel {
+class RegisterViewModel(private val registerUser: RegisterUserUseCase,
+                        private val saveUserToken: SaveUserTokenUseCase) : BaseViewModel<RegisterViewState, RegisterContract.View>(), RegisterContract.ViewModel {
 
     private val registerData = RegisterData()
 
@@ -52,7 +52,7 @@ class RegisterViewModel(private val registerUserUseCase: RegisterUserUseCase,
     }
 
     private fun processRegistration(registerData: RegisterData) = execute {
-        val userRegistrationResult = getData { registerUserUseCase.run(registerData) }
+        val userRegistrationResult = getData { registerUser(registerData) }
 
         userRegistrationResult.doOnSuccess(::onUserRegistered).doOnError(::processError)
     }
@@ -66,8 +66,8 @@ class RegisterViewModel(private val registerUserUseCase: RegisterUserUseCase,
     }
 
     private fun onUserRegistered(userRegistration: UserRegistration) {
-        saveUserLoginUseCase.execute(userRegistration.token)
+        saveUserToken(userRegistration.token)
+
         dispatchRoutingAction { it.onUserRegistered() }
     }
-
 }

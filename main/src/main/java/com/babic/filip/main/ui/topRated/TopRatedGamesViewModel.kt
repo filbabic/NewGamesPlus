@@ -18,7 +18,7 @@ class TopRatedGamesViewModel(private val getTopRatedGamesUseCase: GetTopRatedGam
         if (!isLoading) {
             changeViewState { it.isLoading = true }
 
-            val data = getData { getTopRatedGamesUseCase.run(page) }
+            val data = getData { getTopRatedGamesUseCase(page) }
 
             data.doOnSuccess(::onDataLoaded).doOnError { error ->
                 changeViewState { it.isLoading = false }

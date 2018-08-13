@@ -4,5 +4,5 @@ import kotlinx.coroutines.experimental.channels.Channel
 
 interface QueryUseCase<Result> {
 
-    fun run(): Channel<Result>
+    suspend operator fun invoke(): Channel<Result>
 }
