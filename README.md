@@ -26,5 +26,41 @@ Dagger is great. It's fun. Amazing. It just is... Until something breaks, you ha
 
 Then it's just a pain in the boilerplate ass. Being a Kotlin fanatic just made me fall in love instantly with `Koin`. It takes virtually 2 lines of code to scope modules, the dependency factories and beans are concise and clean, and the best part, no annotations!
 
+# Roadmap
+A project like this should have some sort of a roadmap. It'd be a bit crazy, and it would get confusing, if I were just to randomly add features and things to the project, without any apparent reason.
+
+Generally, it is a learning project first. Both for me and for others. But I still do have a few core things I would like to accomplish.
+
+Structure and setup specific things, Android features
+
+- [x] Kotlinize everything!
+- [x] Modularization
+- [x] Android GO optimization
+- [ ] Better lifecycle handling
+- [ ] Queues for navigation
+- [ ] Persistence/In memory cache of requests/queries
+- [ ] Gradle optimization
+- [ ] UseCase naming and tipization changes (suspend vs non-suspend)
+- [ ] Uniform data flow (goes along with #4)
+- [ ] InstantApp support
+- [ ] Slices support
+- [ ] Dynamic feature modules support
+- [ ] DiffUtils as a default way of data handling
+- [ ] Tests (should be a highr priority ^^)
+- [ ] AndroidX support
+
+App Functionality
+
+- [x] User Authentication
+- [x] Main screen with items
+- [x] Games feed
+- [x] Game Details
+- [ ] User feed
+- [ ] Chat
+- [ ] Friends list and network
+- [ ] Search
+- [ ] Filters
+- [ ] User-specific Profiles
+
 ### P.S.
 If you're interested in commenting, helping out, testing, or really anything that might help me make this app come to life, be sure to let me know! :]
