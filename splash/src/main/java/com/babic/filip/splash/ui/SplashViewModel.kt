@@ -1,6 +1,6 @@
 package com.babic.filip.splash.ui
 
-import com.babic.filip.core.base.BaseViewModel
+import com.babic.filip.coreui.base.BaseViewModel
 import com.babic.filip.splash.domain.interaction.GetUserLoggedInUseCase
 
 class SplashViewModel(private val getUserLoggedInState: GetUserLoggedInUseCase) : BaseViewModel<SplashViewState, SplashContract.View>(), SplashContract.ViewModel {

@@ -1,11 +1,11 @@
 package com.babic.filip.gamedetails.ui
 
 import android.os.Bundle
-import com.babic.filip.core.base.BaseActivity
-import com.babic.filip.core.base.BaseView
-import com.babic.filip.core.base.StateViewModel
 import com.babic.filip.core.common.subscribe
-import com.babic.filip.core.imageLoading.loadImage
+import com.babic.filip.coreui.base.BaseActivity
+import com.babic.filip.coreui.base.BaseView
+import com.babic.filip.coreui.base.StateViewModel
+import com.babic.filip.coreui.imageLoading.loadImage
 import com.babic.filip.gamedetails.R
 import kotlinx.android.synthetic.main.activity_game_details.*
 import org.koin.android.viewmodel.ext.android.viewModel

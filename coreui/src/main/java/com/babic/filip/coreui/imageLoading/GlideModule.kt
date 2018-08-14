@@ -1,4 +1,4 @@
-package com.babic.filip.core.imageLoading
+package com.babic.filip.coreui.imageLoading
 
 import com.bumptech.glide.annotation.GlideModule
 import com.bumptech.glide.module.AppGlideModule

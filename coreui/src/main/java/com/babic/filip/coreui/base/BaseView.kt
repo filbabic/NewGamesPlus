@@ -1,4 +1,4 @@
-package com.babic.filip.core.base
+package com.babic.filip.coreui.base
 
 interface BaseView {
 

@@ -29,7 +29,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     //core modules
-    implementation project(':core')
+    implementation project(':coreui')
     implementation project(':networking')
 
     //feature-specific modules

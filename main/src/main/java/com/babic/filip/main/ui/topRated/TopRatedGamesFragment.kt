@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
-import com.babic.filip.core.base.BaseFragment
-import com.babic.filip.core.base.BaseView
-import com.babic.filip.core.base.StateViewModel
 import com.babic.filip.core.common.subscribe
+import com.babic.filip.coreui.base.BaseFragment
+import com.babic.filip.coreui.base.BaseView
+import com.babic.filip.coreui.base.StateViewModel
 import com.babic.filip.main.R
 import com.babic.filip.main.domain.model.Game
 import com.babic.filip.main.ui.RefreshablePage

@@ -1,6 +1,14 @@
-package com.babic.filip.core.routing
+package com.babic.filip.coreui.routing
 
-interface MainRouter {
+interface Router {
+
+    fun showMain()
+
+    fun showLogin()
+
+    fun showRegister()
+
+    fun onUserRegistered()
 
     fun showTopRated()
 

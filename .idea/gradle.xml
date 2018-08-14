@@ -10,6 +10,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/coreui" />
             <option value="$PROJECT_DIR$/device" />
             <option value="$PROJECT_DIR$/gamedetails" />
             <option value="$PROJECT_DIR$/login" />

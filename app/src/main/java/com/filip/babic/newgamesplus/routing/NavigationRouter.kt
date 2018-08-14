@@ -2,9 +2,9 @@ package com.filip.babic.newgamesplus.routing
 
 import android.content.Intent
 import android.support.v4.app.FragmentManager
-import com.babic.filip.core.base.BaseActivity
-import com.babic.filip.core.common.replace
-import com.babic.filip.core.routing.Router
+import com.babic.filip.coreui.base.BaseActivity
+import com.babic.filip.coreui.common.replace
+import com.babic.filip.coreui.routing.Router
 import com.babic.filip.gamedetails.ui.GameDetailsActivity
 import com.babic.filip.gamedetails.ui.GameDetailsActivity.Companion.KEY_GAME_ID
 import com.babic.filip.login.ui.LoginActivity

@@ -1,6 +1,6 @@
 package com.babic.filip.gamedetails.ui
 
-import com.babic.filip.core.base.BaseViewModel
+import com.babic.filip.coreui.base.BaseViewModel
 import com.babic.filip.gamedetails.domain.interaction.GetGameDetailsUseCase
 import com.babic.filip.gamedetails.domain.model.GameDetails
 import com.babic.filip.networking.data.model.doOnError

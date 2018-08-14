@@ -1,6 +1,6 @@
 package com.babic.filip.main.ui.topRated
 
-import com.babic.filip.core.base.BaseViewModel
+import com.babic.filip.coreui.base.BaseViewModel
 import com.babic.filip.main.domain.interaction.GetTopRatedGamesUseCase
 import com.babic.filip.main.domain.model.Game
 import com.babic.filip.networking.data.model.doOnError

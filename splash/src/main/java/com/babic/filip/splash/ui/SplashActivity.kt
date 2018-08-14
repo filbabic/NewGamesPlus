@@ -1,12 +1,12 @@
 package com.babic.filip.splash.ui
 
 import android.os.Bundle
-import com.babic.filip.core.base.BaseActivity
-import com.babic.filip.core.base.BaseView
-import com.babic.filip.core.base.StateViewModel
-import com.babic.filip.core.common.isVisible
-import com.babic.filip.core.common.onClick
 import com.babic.filip.core.common.subscribe
+import com.babic.filip.coreui.base.BaseActivity
+import com.babic.filip.coreui.base.BaseView
+import com.babic.filip.coreui.base.StateViewModel
+import com.babic.filip.coreui.common.isVisible
+import com.babic.filip.coreui.common.onClick
 import com.babic.filip.splash.R
 import kotlinx.android.synthetic.main.activity_splash.*
 import org.koin.android.viewmodel.ext.android.viewModel

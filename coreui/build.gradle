@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 28
@@ -25,11 +25,27 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation project(':coreui')
-    implementation project(':device')
-    implementation project(':networking')
+    api project(':core')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+
+    //general ui dependencies
+    api "com.android.support:appcompat-v7:$supportLib"
+    api "com.android.support:design:$supportLib"
+    api "com.android.support.constraint:constraint-layout:$constraintLayout"
+
+    //architecture components
+    implementation "android.arch.lifecycle:viewmodel:$architectureComponents"
+    kapt "android.arch.lifecycle:compiler:$architectureComponents"
+
+    //di
+    api "org.koin:koin-android:$koin"
+    api "org.koin:koin-android-scope:$koin"
+    api "org.koin:koin-android-viewmodel:$koin"
+
+    //image loading
+    api "com.github.bumptech.glide:glide:$glide"
+    kapt "com.github.bumptech.glide:compiler:$glide"
 }
 
 kotlin {
