@@ -1,4 +1,4 @@
-package com.babic.filip.core.imageLoading
+package com.babic.filip.coreui.imageLoading
 
 import android.content.Context
 import android.view.View

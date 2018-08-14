@@ -1,4 +1,4 @@
-package com.babic.filip.core.error
+package com.babic.filip.coreui.error
 
 import android.content.Context
 import android.support.annotation.StringRes

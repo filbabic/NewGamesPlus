@@ -1,9 +1,9 @@
-package com.babic.filip.core.base
+package com.babic.filip.coreui.base
 
 import android.arch.lifecycle.ViewModel
 import com.babic.filip.core.coroutineContext.CoroutineContextProvider
-import com.babic.filip.core.routing.Router
-import com.babic.filip.core.routing.RoutingDispatcher
+import com.babic.filip.coreui.routing.Router
+import com.babic.filip.coreui.routing.RoutingDispatcher
 import kotlinx.coroutines.experimental.channels.BroadcastChannel
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.ReceiveChannel
@@ -25,6 +25,10 @@ abstract class BaseViewModel<Data : Any, View : BaseView> : ViewModel(), StateVi
     }
 
     private fun checkStateChannel() {
+
+        dispatchRoutingAction {
+            it.refreshPage() }
+
         if (stateChannel.isClosedForSend) {
             stateChannel = createStateChannel()
             checkInitialState()
@@ -104,9 +108,9 @@ abstract class BaseViewModel<Data : Any, View : BaseView> : ViewModel(), StateVi
         }
     }
 
-    private var router: RoutingDispatcher<Router>? = null
+    private var router: RoutingDispatcher? = null
 
-    override fun setRoutingSource(routingDispatcher: RoutingDispatcher<Router>) {
+    override fun setRoutingSource(routingDispatcher: RoutingDispatcher) {
         this.router = routingDispatcher
     }
 

@@ -1,12 +1,12 @@
 package com.babic.filip.main.ui
 
 import android.os.Bundle
-import com.babic.filip.core.base.BaseActivity
-import com.babic.filip.core.base.BaseView
-import com.babic.filip.core.base.StateViewModel
-import com.babic.filip.core.common.onNavigationItemReselected
-import com.babic.filip.core.common.onNavigationItemSelected
 import com.babic.filip.core.common.subscribe
+import com.babic.filip.coreui.base.BaseActivity
+import com.babic.filip.coreui.base.BaseView
+import com.babic.filip.coreui.base.StateViewModel
+import com.babic.filip.coreui.common.onNavigationItemReselected
+import com.babic.filip.coreui.common.onNavigationItemSelected
 import com.babic.filip.main.R
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.viewmodel.ext.android.viewModel

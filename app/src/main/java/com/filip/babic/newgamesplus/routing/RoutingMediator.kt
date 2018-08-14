@@ -1,9 +1,9 @@
 package com.filip.babic.newgamesplus.routing
 
-import com.babic.filip.core.routing.Router
-import com.babic.filip.core.routing.RoutingDispatcher
+import com.babic.filip.coreui.routing.Router
+import com.babic.filip.coreui.routing.RoutingDispatcher
 
-class RoutingMediator(private val router: NavigationRouter) : RoutingDispatcher<Router> {
+class RoutingMediator(private val router: NavigationRouter) : RoutingDispatcher {
 
     override fun dispatchRoutingAction(action: Router.() -> Unit) = router.action()
 }

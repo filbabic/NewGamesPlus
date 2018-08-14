@@ -1,6 +1,6 @@
 package com.babic.filip.register.ui
 
-import com.babic.filip.core.base.BaseViewModel
+import com.babic.filip.coreui.base.BaseViewModel
 import com.babic.filip.networking.data.error.ApiDataTransformationException
 import com.babic.filip.networking.data.error.AuthenticationError
 import com.babic.filip.networking.data.error.NetworkException

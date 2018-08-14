@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.babic.filip.core.imageLoading.loadImage
+import com.babic.filip.coreui.imageLoading.loadImage
 import com.babic.filip.main.R
 import com.babic.filip.main.domain.model.Game
 import kotlinx.android.synthetic.main.item_game.view.*

@@ -1,4 +1,4 @@
-package com.babic.filip.core.common
+package com.babic.filip.coreui.common
 
 import android.content.Context
 import android.support.annotation.StringRes

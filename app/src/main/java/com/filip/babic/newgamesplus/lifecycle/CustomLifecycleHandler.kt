@@ -6,11 +6,10 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
-import com.babic.filip.core.base.BaseActivity
-import com.babic.filip.core.base.BaseFragment
 import com.babic.filip.core.coroutineContext.CoroutineContextProviderImpl
-import com.babic.filip.core.routing.Router
-import com.babic.filip.core.routing.RoutingDispatcher
+import com.babic.filip.coreui.base.BaseActivity
+import com.babic.filip.coreui.base.BaseFragment
+import com.babic.filip.coreui.routing.RoutingDispatcher
 import com.filip.babic.newgamesplus.routing.NavigationRouter
 import com.filip.babic.newgamesplus.routing.RoutingMediator
 
@@ -47,7 +46,7 @@ class CustomLifecycleHandler : Application.ActivityLifecycleCallbacks {
         }, true)
     }
 
-    private fun getRoutingDispatcher(baseActivity: BaseActivity<*>): RoutingDispatcher<Router> {
+    private fun getRoutingDispatcher(baseActivity: BaseActivity<*>): RoutingDispatcher {
         val navigator = NavigationRouter(baseActivity, baseActivity.supportFragmentManager)
 
         return RoutingMediator(navigator)

@@ -1,10 +1,10 @@
 package com.babic.filip.login.ui
 
 import android.os.Bundle
-import com.babic.filip.core.base.BaseActivity
-import com.babic.filip.core.base.BaseView
-import com.babic.filip.core.base.StateViewModel
 import com.babic.filip.core.common.subscribe
+import com.babic.filip.coreui.base.BaseActivity
+import com.babic.filip.coreui.base.BaseView
+import com.babic.filip.coreui.base.StateViewModel
 import com.babic.filip.login.R
 import org.koin.android.viewmodel.ext.android.viewModel
 

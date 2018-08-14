@@ -1,6 +1,6 @@
 package com.babic.filip.main.ui
 
-import com.babic.filip.core.base.BaseViewModel
+import com.babic.filip.coreui.base.BaseViewModel
 import com.babic.filip.main.R
 
 class MainViewModel : BaseViewModel<MainViewState, MainContract.View>(), MainContract.ViewModel {

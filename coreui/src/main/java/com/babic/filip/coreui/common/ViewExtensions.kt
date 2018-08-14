@@ -1,4 +1,4 @@
-package com.babic.filip.core.common
+package com.babic.filip.coreui.common
 
 import android.support.design.widget.BottomNavigationView
 import android.text.Editable

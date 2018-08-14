@@ -1,13 +1,13 @@
 package com.babic.filip.register.ui
 
 import android.os.Bundle
-import com.babic.filip.core.base.BaseActivity
-import com.babic.filip.core.base.BaseView
-import com.babic.filip.core.base.StateViewModel
-import com.babic.filip.core.common.onClick
-import com.babic.filip.core.common.onTextChanged
 import com.babic.filip.core.common.subscribe
-import com.babic.filip.core.common.toast
+import com.babic.filip.coreui.base.BaseActivity
+import com.babic.filip.coreui.base.BaseView
+import com.babic.filip.coreui.base.StateViewModel
+import com.babic.filip.coreui.common.onClick
+import com.babic.filip.coreui.common.onTextChanged
+import com.babic.filip.coreui.common.toast
 import com.babic.filip.register.R
 import kotlinx.android.synthetic.main.activity_register.*
 import org.koin.android.viewmodel.ext.android.viewModel

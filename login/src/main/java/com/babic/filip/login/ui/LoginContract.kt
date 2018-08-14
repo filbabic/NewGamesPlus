@@ -1,7 +1,7 @@
 package com.babic.filip.login.ui
 
-import com.babic.filip.core.base.BaseView
-import com.babic.filip.core.base.StateViewModel
+import com.babic.filip.coreui.base.BaseView
+import com.babic.filip.coreui.base.StateViewModel
 
 interface LoginContract {
 
