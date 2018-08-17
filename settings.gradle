@@ -1,1 +1,1 @@
-include ':app', ':device', ':login', ':core', ':splash', ':register', ':networking', ':main', ':gamedetails', ':coreui'
+include ':app', ':device', ':login', ':core', ':splash', ':register', ':networking', ':main', ':gamedetails', ':coreui', ':toprated', ':myprofile', ':feed', ':messages', ':upcoming'

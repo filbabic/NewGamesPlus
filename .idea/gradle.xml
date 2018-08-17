@@ -12,12 +12,17 @@
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/coreui" />
             <option value="$PROJECT_DIR$/device" />
+            <option value="$PROJECT_DIR$/feed" />
             <option value="$PROJECT_DIR$/gamedetails" />
             <option value="$PROJECT_DIR$/login" />
             <option value="$PROJECT_DIR$/main" />
+            <option value="$PROJECT_DIR$/messages" />
+            <option value="$PROJECT_DIR$/myprofile" />
             <option value="$PROJECT_DIR$/networking" />
             <option value="$PROJECT_DIR$/register" />
             <option value="$PROJECT_DIR$/splash" />
+            <option value="$PROJECT_DIR$/toprated" />
+            <option value="$PROJECT_DIR$/upcoming" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

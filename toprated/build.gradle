@@ -29,13 +29,6 @@ dependencies {
     implementation project(':device')
     implementation project(':networking')
 
-    //page specific modules
-    api project(':toprated')
-    api project(':feed')
-    api project(':upcoming')
-    api project(':myprofile')
-    api project(':messages')
-
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 }
 
