@@ -8,6 +8,7 @@ import com.babic.filip.main.di.mainModule
 import com.babic.filip.networking.data.di.networkingModule
 import com.babic.filip.register.di.registerModule
 import com.babic.filip.splash.di.splashModule
+import com.babic.filip.toprated.di.topRatedGamesModule
 import com.filip.babic.device.di.deviceModule
 import com.filip.babic.newgamesplus.lifecycle.CustomLifecycleHandler
 import com.squareup.leakcanary.LeakCanary
@@ -41,6 +42,7 @@ class App : Application() {
             loginModule,
             deviceModule,
             mainModule,
-            gameDetailsModule
+            gameDetailsModule,
+            topRatedGamesModule
     )
 }

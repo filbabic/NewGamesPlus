@@ -3,15 +3,15 @@ package com.filip.babic.newgamesplus.routing
 import android.content.Intent
 import android.support.v4.app.FragmentManager
 import com.babic.filip.coreui.base.BaseActivity
+import com.babic.filip.coreui.base.RefreshablePage
 import com.babic.filip.coreui.common.replace
 import com.babic.filip.coreui.routing.Router
 import com.babic.filip.gamedetails.ui.GameDetailsActivity
 import com.babic.filip.gamedetails.ui.GameDetailsActivity.Companion.KEY_GAME_ID
 import com.babic.filip.login.ui.LoginActivity
 import com.babic.filip.main.ui.MainActivity
-import com.babic.filip.main.ui.RefreshablePage
-import com.babic.filip.main.ui.topRated.TopRatedGamesFragment
 import com.babic.filip.register.ui.RegisterActivity
+import com.babic.filip.toprated.ui.TopRatedGamesFragment
 import com.filip.babic.newgamesplus.R
 
 class NavigationRouter(private val activity: BaseActivity<*>, private val fragmentManager: FragmentManager) : Router {

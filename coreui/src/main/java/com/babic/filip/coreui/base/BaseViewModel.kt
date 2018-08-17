@@ -27,7 +27,8 @@ abstract class BaseViewModel<Data : Any, View : BaseView> : ViewModel(), StateVi
     private fun checkStateChannel() {
 
         dispatchRoutingAction {
-            it.refreshPage() }
+            it.refreshPage()
+        }
 
         if (stateChannel.isClosedForSend) {
             stateChannel = createStateChannel()
@@ -70,7 +71,7 @@ abstract class BaseViewModel<Data : Any, View : BaseView> : ViewModel(), StateVi
     protected inline fun withState(consumer: (Data) -> Unit) = consumer(state)
     protected inline fun <T> fromState(consumer: (Data) -> T) = consumer(state)
 
-    protected inline fun execute(crossinline action: suspend () -> Unit) {
+    protected fun execute(action: suspend () -> Unit) {
         launch(main) { action() }
     }
 
