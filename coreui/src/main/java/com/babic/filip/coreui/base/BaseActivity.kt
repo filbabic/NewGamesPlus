@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.support.annotation.LayoutRes
 import android.support.v7.app.AppCompatActivity
 import com.babic.filip.core.common.subscribe
-import com.babic.filip.core.coroutineContext.CoroutineContextProvider
-import com.babic.filip.coreui.routing.RoutingDispatcher
 import kotlinx.coroutines.experimental.channels.ReceiveChannel
+import org.koin.android.ext.android.get
 import org.koin.android.scope.ext.android.scopedWith
+import org.koin.core.parameter.parametersOf
 
 abstract class BaseActivity<Data : Any> : AppCompatActivity(), BaseView {
 
@@ -19,11 +19,7 @@ abstract class BaseActivity<Data : Any> : AppCompatActivity(), BaseView {
         scopedWith(getScope())
 
         getViewModel().viewReady(this)
-    }
-
-    fun initViewModel(routingDispatcher: RoutingDispatcher, contextProvider: CoroutineContextProvider) {
-        getViewModel().setRoutingSource(routingDispatcher)
-        getViewModel().setCoroutineContextProvider(contextProvider)
+        getViewModel().setRoutingSource(get(parameters = { parametersOf(this) }))
     }
 
     protected inline fun <reified T> addSubscription(channel: ReceiveChannel<T>, crossinline consumer: (T) -> Unit) {

@@ -1,6 +1,6 @@
 package com.babic.filip.coreui.routing
 
-interface RoutingDispatcher {
+interface RoutingDispatcher<RoutingSource> {
 
-    fun dispatchRoutingAction(action: Router.() -> Unit)
+    fun dispatchRoutingAction(action: RoutingSource.() -> Unit)
 }

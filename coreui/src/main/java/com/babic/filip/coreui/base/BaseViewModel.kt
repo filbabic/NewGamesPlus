@@ -25,11 +25,6 @@ abstract class BaseViewModel<Data : Any, View : BaseView> : ViewModel(), StateVi
     }
 
     private fun checkStateChannel() {
-
-        dispatchRoutingAction {
-            it.refreshPage()
-        }
-
         if (stateChannel.isClosedForSend) {
             stateChannel = createStateChannel()
             checkInitialState()
@@ -109,9 +104,9 @@ abstract class BaseViewModel<Data : Any, View : BaseView> : ViewModel(), StateVi
         }
     }
 
-    private var router: RoutingDispatcher? = null
+    private var router: RoutingDispatcher<Router>? = null
 
-    override fun setRoutingSource(routingDispatcher: RoutingDispatcher) {
+    override fun setRoutingSource(routingDispatcher: RoutingDispatcher<Router>) {
         this.router = routingDispatcher
     }
 

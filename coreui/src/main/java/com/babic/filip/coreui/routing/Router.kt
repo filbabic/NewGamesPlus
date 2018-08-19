@@ -10,17 +10,5 @@ interface Router {
 
     fun onUserRegistered()
 
-    fun showTopRated()
-
-    fun showUpcoming()
-
-    fun showFeed()
-
-    fun showMessages()
-
-    fun showMyProfile()
-
-    fun refreshPage()
-
     fun showGameDetails(gameId: String)
 }
