@@ -10,7 +10,8 @@ import com.babic.filip.register.di.registerModule
 import com.babic.filip.splash.di.splashModule
 import com.babic.filip.toprated.di.topRatedGamesModule
 import com.filip.babic.device.di.deviceModule
-import com.filip.babic.newgamesplus.lifecycle.CustomLifecycleHandler
+import com.filip.babic.newgamesplus.di.appModule
+import com.filip.babic.newgamesplus.di.navigationModule
 import com.squareup.leakcanary.LeakCanary
 import org.koin.android.ext.android.startKoin
 
@@ -27,13 +28,14 @@ class App : Application() {
 
         startKoin(this, coreModules + featureModules)
 
-        registerActivityLifecycleCallbacks(CustomLifecycleHandler())
         LeakCanary.install(this)
     }
 
     private val coreModules = listOf(
             coreModule,
-            networkingModule(BuildConfig.DEBUG)
+            networkingModule(BuildConfig.DEBUG),
+            navigationModule,
+            appModule
     )
 
     private val featureModules = listOf(

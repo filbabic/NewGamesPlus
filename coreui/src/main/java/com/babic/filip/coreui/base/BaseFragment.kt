@@ -7,10 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.babic.filip.core.common.subscribe
-import com.babic.filip.core.coroutineContext.CoroutineContextProvider
-import com.babic.filip.coreui.routing.RoutingDispatcher
 import kotlinx.coroutines.experimental.channels.ReceiveChannel
+import org.koin.android.ext.android.get
 import org.koin.android.scope.ext.android.scopedWith
+import org.koin.core.parameter.parametersOf
 
 abstract class BaseFragment<Data : Any> : Fragment(), BaseView {
 
@@ -23,13 +23,14 @@ abstract class BaseFragment<Data : Any> : Fragment(), BaseView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getViewModel().viewReady(this)
-
         scopedWith(getScope())
+
+        val activity = activity as? BaseActivity<*>
+        activity?.run { initViewModel(this) }
     }
 
-    fun initViewModel(routingDispatcher: RoutingDispatcher, coroutineContextProvider: CoroutineContextProvider) {
-        getViewModel().setRoutingSource(routingDispatcher)
-        getViewModel().setCoroutineContextProvider(coroutineContextProvider)
+    private fun initViewModel(baseActivity: BaseActivity<*>) {
+        getViewModel().setRoutingSource(get(parameters = { parametersOf(baseActivity) }))
     }
 
     protected inline fun <reified T> addSubscription(channel: ReceiveChannel<T>, crossinline consumer: (T) -> Unit) {

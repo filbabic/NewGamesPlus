@@ -1,5 +1,6 @@
 package com.babic.filip.toprated.di
 
+import com.babic.filip.core.coroutineContext.CoroutineContextProviderImpl
 import com.babic.filip.toprated.data.network.TopRatedGamesApiService
 import com.babic.filip.toprated.data.repository.TopRatedGamesRepositoryImpl
 import com.babic.filip.toprated.domain.interaction.GetTopRatedGamesUseCase
@@ -16,5 +17,7 @@ val topRatedGamesModule = module(TOP_RATED_GAMES_SCOPE) {
     single { TopRatedGamesRepositoryImpl(get()) as TopRatedGamesRepository }
     single { GetTopRatedGamesUseCase(get()) }
 
-    viewModel { TopRatedGamesViewModel(get()) }
+    viewModel {
+        TopRatedGamesViewModel(get()).apply { setCoroutineContextProvider(get<CoroutineContextProviderImpl>()) }
+    }
 }

@@ -1,26 +1,15 @@
 package com.filip.babic.newgamesplus.routing
 
 import android.content.Intent
-import android.support.v4.app.FragmentManager
 import com.babic.filip.coreui.base.BaseActivity
-import com.babic.filip.coreui.base.RefreshablePage
-import com.babic.filip.coreui.common.replace
 import com.babic.filip.coreui.routing.Router
 import com.babic.filip.gamedetails.ui.GameDetailsActivity
 import com.babic.filip.gamedetails.ui.GameDetailsActivity.Companion.KEY_GAME_ID
 import com.babic.filip.login.ui.LoginActivity
 import com.babic.filip.main.ui.MainActivity
 import com.babic.filip.register.ui.RegisterActivity
-import com.babic.filip.toprated.ui.TopRatedGamesFragment
-import com.filip.babic.newgamesplus.R
 
-class NavigationRouter(private val activity: BaseActivity<*>, private val fragmentManager: FragmentManager) : Router {
-
-    companion object {
-        const val containerId: Int = R.id.fragmentContainer
-    }
-
-    private var refreshablePage: RefreshablePage? = null
+class NavigationRouter(private val activity: BaseActivity<*>) : Router {
 
     /**
      * Activity based transitions
@@ -34,32 +23,6 @@ class NavigationRouter(private val activity: BaseActivity<*>, private val fragme
     override fun showGameDetails(gameId: String) = startNextScreen(getIntent<GameDetailsActivity>().apply { putExtra(KEY_GAME_ID, gameId) })
 
     override fun onUserRegistered() = showMain()
-
-    /**
-     * Fragment based transitions
-     * **/
-    override fun showFeed() {
-    }
-
-    override fun showMessages() {
-    }
-
-    override fun showMyProfile() {
-    }
-
-    override fun showTopRated() {
-        val newFragment = TopRatedGamesFragment()
-        refreshablePage = newFragment
-
-        fragmentManager.replace(newFragment, containerId)
-    }
-
-    override fun showUpcoming() {
-    }
-
-    override fun refreshPage() {
-        refreshablePage?.refresh()
-    }
 
     /**
      * Base setup

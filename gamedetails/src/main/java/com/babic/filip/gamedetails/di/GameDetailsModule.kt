@@ -1,5 +1,6 @@
 package com.babic.filip.gamedetails.di
 
+import com.babic.filip.core.coroutineContext.CoroutineContextProviderImpl
 import com.babic.filip.gamedetails.data.networking.GameDetailsApiService
 import com.babic.filip.gamedetails.data.repository.GameDetailsRepositoryImpl
 import com.babic.filip.gamedetails.domain.interaction.GetGameDetailsUseCase
@@ -16,5 +17,7 @@ val gameDetailsModule = module(GAME_DETAILS_SCOPE) {
     single { GameDetailsRepositoryImpl(get()) as GameDetailsRepository }
     single { GetGameDetailsUseCase(get()) }
 
-    viewModel { GameDetailsViewModel(get()) }
+    viewModel {
+        GameDetailsViewModel(get()).apply { setCoroutineContextProvider(get<CoroutineContextProviderImpl>()) }
+    }
 }
