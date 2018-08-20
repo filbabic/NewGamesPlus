@@ -40,4 +40,4 @@ class SplashActivity : BaseActivity<SplashViewState>() {
     override fun getScope(): String = SPLASH_SCOPE
 }
 
-const val SPLASH_SCOPE = "Scope"
+const val SPLASH_SCOPE = "Splash"
