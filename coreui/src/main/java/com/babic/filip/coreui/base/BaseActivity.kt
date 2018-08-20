@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.annotation.LayoutRes
 import android.support.v7.app.AppCompatActivity
 import com.babic.filip.core.common.subscribe
+import com.babic.filip.core.coroutineContext.CoroutineContextProviderImpl
 import kotlinx.coroutines.experimental.channels.ReceiveChannel
 import org.koin.android.ext.android.get
 import org.koin.android.scope.ext.android.scopedWith
@@ -17,8 +18,13 @@ abstract class BaseActivity<Data : Any> : AppCompatActivity(), BaseView {
         super.onCreate(savedInstanceState)
         setContentView(getLayout())
         scopedWith(getScope())
+        initViewModel()
 
         getViewModel().viewReady(this)
+    }
+
+    private fun initViewModel() {
+        getViewModel().setCoroutineContextProvider(get<CoroutineContextProviderImpl>())
         getViewModel().setRoutingSource(get(parameters = { parametersOf(this) }))
     }
 

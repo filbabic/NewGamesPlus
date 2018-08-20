@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.babic.filip.core.common.subscribe
+import com.babic.filip.core.coroutineContext.CoroutineContextProviderImpl
 import kotlinx.coroutines.experimental.channels.ReceiveChannel
 import org.koin.android.ext.android.get
 import org.koin.android.scope.ext.android.scopedWith
@@ -30,6 +31,7 @@ abstract class BaseFragment<Data : Any> : Fragment(), BaseView {
     }
 
     private fun initViewModel(baseActivity: BaseActivity<*>) {
+        getViewModel().setCoroutineContextProvider(get<CoroutineContextProviderImpl>())
         getViewModel().setRoutingSource(get(parameters = { parametersOf(baseActivity) }))
     }
 

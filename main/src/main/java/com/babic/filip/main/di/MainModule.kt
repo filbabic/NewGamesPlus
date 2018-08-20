@@ -1,6 +1,5 @@
 package com.babic.filip.main.di
 
-import com.babic.filip.core.coroutineContext.CoroutineContextProviderImpl
 import com.babic.filip.coreui.base.BaseActivity
 import com.babic.filip.main.routing.MainNavigationRouter
 import com.babic.filip.main.routing.MainRouterMediator
@@ -17,6 +16,6 @@ val mainModule = module(MAIN_SCOPE) {
         val mainNavigator = MainNavigationRouter(activity.supportFragmentManager)
         val routingDispatcher = MainRouterMediator(mainNavigator)
 
-        MainViewModel(routingDispatcher).apply { setCoroutineContextProvider(get<CoroutineContextProviderImpl>()) }
+        MainViewModel(routingDispatcher)
     }
 }

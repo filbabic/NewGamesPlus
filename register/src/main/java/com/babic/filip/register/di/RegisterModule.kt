@@ -1,6 +1,5 @@
 package com.babic.filip.register.di
 
-import com.babic.filip.core.coroutineContext.CoroutineContextProviderImpl
 import com.babic.filip.register.data.networking.RegisterApiService
 import com.babic.filip.register.data.repository.RegisterRepositoryImpl
 import com.babic.filip.register.domain.interaction.RegisterUserUseCase
@@ -21,7 +20,5 @@ val registerModule = module(REGISTER_SCOPE) {
 
     single { RegisterRepositoryImpl(get()) as RegisterRepository }
 
-    viewModel {
-        RegisterViewModel(get(), get()).apply { setCoroutineContextProvider(get<CoroutineContextProviderImpl>()) }
-    }
+    viewModel { RegisterViewModel(get(), get()) }
 }
