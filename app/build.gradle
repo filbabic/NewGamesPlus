@@ -6,7 +6,7 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.filip.babic.coroutinesexpo"
+        applicationId "com.filip.babic.newgamesplus"
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 1

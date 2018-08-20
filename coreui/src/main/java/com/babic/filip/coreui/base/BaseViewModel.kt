@@ -4,18 +4,19 @@ import android.arch.lifecycle.ViewModel
 import com.babic.filip.core.coroutineContext.CoroutineContextProvider
 import com.babic.filip.coreui.routing.Router
 import com.babic.filip.coreui.routing.RoutingDispatcher
+import kotlinx.coroutines.experimental.Job
+import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.channels.BroadcastChannel
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.ReceiveChannel
 import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.withContext
 import kotlin.coroutines.experimental.CoroutineContext
 
 abstract class BaseViewModel<Data : Any, View : BaseView> : ViewModel(), StateViewModel<Data, View> {
 
     protected var view: View? = null
 
-    //todo cancellation when leaving the screen or something
+    private val jobs = mutableListOf<Job>()
 
     override fun viewReady(view: View) {
         this.view = view
@@ -34,15 +35,23 @@ abstract class BaseViewModel<Data : Any, View : BaseView> : ViewModel(), StateVi
     abstract fun initialState(): Data
 
     private fun checkInitialState() {
-        if (!::state.isInitialized) {
-            pushViewState(initialState())
-        }
+        val currentState = if (!::state.isInitialized) initialState() else state
+
+        pushViewState(currentState)
     }
 
     fun onDestroy() {
+        jobs.forEach(::cancelJob)
+        jobs.clear()
         router = null
         view = null
         stateChannel.close()
+    }
+
+    private fun cancelJob(job: Job) {
+        if (job.isActive) {
+            job.cancel()
+        }
     }
 
     protected fun start() = Unit
@@ -67,7 +76,7 @@ abstract class BaseViewModel<Data : Any, View : BaseView> : ViewModel(), StateVi
     protected inline fun <T> fromState(consumer: (Data) -> T) = consumer(state)
 
     protected fun execute(action: suspend () -> Unit) {
-        launch(main) { action() }
+        jobs.add(launch(main) { action() })
     }
 
     protected fun pushViewState(viewState: Data) {
@@ -115,6 +124,10 @@ abstract class BaseViewModel<Data : Any, View : BaseView> : ViewModel(), StateVi
     }
 
     suspend fun <T : Any> getData(dataProvider: suspend () -> T): T {
-        return withContext(contextProvider.io) { dataProvider() }
+        val deferredData = async(contextProvider.io) { dataProvider() }
+
+        jobs.add(deferredData)
+
+        return deferredData.await()
     }
 }
