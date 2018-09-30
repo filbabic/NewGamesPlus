@@ -11,14 +11,14 @@ import org.koin.android.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.module
 import retrofit2.Retrofit
 
-val registerModule = module(REGISTER_SCOPE) {
+val registerModule = module {
 
-    single { RegisterUserUseCase(get()) }
-    single { SaveUserTokenUseCase(get()) }
+    scope(REGISTER_SCOPE) { RegisterUserUseCase(get()) }
+    scope(REGISTER_SCOPE) { SaveUserTokenUseCase(get()) }
 
-    single { get<Retrofit>().create(RegisterApiService::class.java) }
+    scope(REGISTER_SCOPE) { get<Retrofit>().create(RegisterApiService::class.java) }
 
-    single { RegisterRepositoryImpl(get()) as RegisterRepository }
+    scope(REGISTER_SCOPE) { RegisterRepositoryImpl(get()) as RegisterRepository }
 
     viewModel { RegisterViewModel(get(), get()) }
 }

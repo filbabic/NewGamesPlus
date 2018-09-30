@@ -6,6 +6,7 @@ import com.babic.filip.coreui.base.BaseActivity
 import com.babic.filip.coreui.base.BaseView
 import com.babic.filip.coreui.base.StateViewModel
 import com.babic.filip.login.R
+import kotlinx.android.synthetic.main.activity_login.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class LoginActivity : BaseActivity<LoginViewState>() {
@@ -18,7 +19,8 @@ class LoginActivity : BaseActivity<LoginViewState>() {
     }
 
     private fun onViewStateChanged(loginViewState: LoginViewState) {
-
+        passwordRoot.error = loginViewState.passwordError?.getError(this)
+        emailRoot.error = loginViewState.emailError?.getError(this)
     }
 
     override fun getLayout(): Int = R.layout.activity_login

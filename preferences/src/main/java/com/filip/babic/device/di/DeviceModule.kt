@@ -7,7 +7,7 @@ import org.koin.dsl.module.module
 
 private const val KEY_PREFERENCES = "NewGamesPlus-SharedPreferences"
 
-val deviceModule = module {
+val preferenceModule = module {
     single { get<Context>().getSharedPreferences(KEY_PREFERENCES, Context.MODE_PRIVATE) }
 
     single { UserPreferencesRepositoryImpl(get()) as UserPreferencesRepository }

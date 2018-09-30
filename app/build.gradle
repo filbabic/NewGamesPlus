@@ -36,7 +36,7 @@ dependencies {
     implementation project(':splash')
     implementation project(':login')
     implementation project(':register')
-    implementation project(':device')
+    implementation project(':preferences')
     implementation project(':main')
     implementation project(':gamedetails')
 

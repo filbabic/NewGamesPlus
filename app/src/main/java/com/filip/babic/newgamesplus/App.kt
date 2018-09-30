@@ -9,7 +9,7 @@ import com.babic.filip.networking.data.di.networkingModule
 import com.babic.filip.register.di.registerModule
 import com.babic.filip.splash.di.splashModule
 import com.babic.filip.toprated.di.topRatedGamesModule
-import com.filip.babic.device.di.deviceModule
+import com.filip.babic.device.di.preferenceModule
 import com.filip.babic.newgamesplus.di.appModule
 import com.filip.babic.newgamesplus.di.navigationModule
 import com.squareup.leakcanary.LeakCanary
@@ -42,7 +42,7 @@ class App : Application() {
             registerModule,
             splashModule,
             loginModule,
-            deviceModule,
+            preferenceModule,
             mainModule,
             gameDetailsModule,
             topRatedGamesModule

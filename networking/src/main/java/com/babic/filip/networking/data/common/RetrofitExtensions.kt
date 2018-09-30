@@ -49,7 +49,7 @@ suspend fun <T : Mappable<R>, R : Any> Call<T>.getResult(): Result<R> {
         }
     }
 
-    val dataInvalidator: (Result<R>) -> Boolean = { data -> data is Failure && (data.error === NetworkException || data.error == ServerError) }
+    val dataInvalidator: (Result<R>) -> Boolean = { data -> data is Failure && (data.error == NetworkException || data.error == ServerError) }
 
     repeat(DEFAULT_RETRY_ATTEMPTS - 1) {
         //first we try to run the data two times, if it's okay, we return it

@@ -7,7 +7,8 @@ import com.babic.filip.core.common.subscribe
 import com.babic.filip.core.coroutineContext.CoroutineContextProviderImpl
 import kotlinx.coroutines.experimental.channels.ReceiveChannel
 import org.koin.android.ext.android.get
-import org.koin.android.scope.ext.android.scopedWith
+import org.koin.android.scope.ext.android.bindScope
+import org.koin.android.scope.ext.android.getOrCreateScope
 import org.koin.core.parameter.parametersOf
 
 abstract class BaseActivity<Data : Any> : AppCompatActivity(), BaseView {
@@ -17,7 +18,7 @@ abstract class BaseActivity<Data : Any> : AppCompatActivity(), BaseView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(getLayout())
-        scopedWith(getScope())
+        bindScope(getOrCreateScope(getScope()))
         initViewModel()
 
         getViewModel().viewReady(this)
