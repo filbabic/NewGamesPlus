@@ -10,11 +10,11 @@ import org.koin.android.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.module
 import retrofit2.Retrofit
 
-val gameDetailsModule = module(GAME_DETAILS_SCOPE) {
+val gameDetailsModule = module {
 
-    single { get<Retrofit>().create(GameDetailsApiService::class.java) }
-    single { GameDetailsRepositoryImpl(get()) as GameDetailsRepository }
-    single { GetGameDetailsUseCase(get()) }
+    scope(GAME_DETAILS_SCOPE) { get<Retrofit>().create(GameDetailsApiService::class.java) }
+    scope(GAME_DETAILS_SCOPE) { GameDetailsRepositoryImpl(get()) as GameDetailsRepository }
+    scope(GAME_DETAILS_SCOPE) { GetGameDetailsUseCase(get()) }
 
     viewModel { GameDetailsViewModel(get()) }
 }

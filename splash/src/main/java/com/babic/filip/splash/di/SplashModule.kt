@@ -6,9 +6,9 @@ import com.babic.filip.splash.ui.SplashViewModel
 import org.koin.android.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.module
 
-val splashModule = module(SPLASH_SCOPE) {
+val splashModule = module {
 
-    single { GetUserLoggedInUseCase(get()) }
+    scope(SPLASH_SCOPE) { GetUserLoggedInUseCase(get()) }
 
     viewModel { SplashViewModel(get()) }
 }

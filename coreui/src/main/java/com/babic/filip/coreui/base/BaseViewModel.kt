@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModel
 import com.babic.filip.core.coroutineContext.CoroutineContextProvider
 import com.babic.filip.coreui.routing.Router
 import com.babic.filip.coreui.routing.RoutingDispatcher
+import kotlinx.coroutines.experimental.CoroutineScope
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.channels.BroadcastChannel
@@ -12,7 +13,7 @@ import kotlinx.coroutines.experimental.channels.ReceiveChannel
 import kotlinx.coroutines.experimental.launch
 import kotlin.coroutines.experimental.CoroutineContext
 
-abstract class BaseViewModel<Data : Any, View : BaseView> : ViewModel(), StateViewModel<Data, View> {
+abstract class BaseViewModel<Data : Any, View : BaseView> : ViewModel(), StateViewModel<Data, View>, CoroutineScope {
 
     protected var view: View? = null
 
@@ -130,4 +131,7 @@ abstract class BaseViewModel<Data : Any, View : BaseView> : ViewModel(), StateVi
 
         return deferredData.await()
     }
+
+
+    override val coroutineContext: CoroutineContext by lazy { main }
 }

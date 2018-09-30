@@ -26,7 +26,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation project(':coreui')
-    implementation project(':device')
+    implementation project(':preferences')
     implementation project(':networking')
 
     //page specific modules

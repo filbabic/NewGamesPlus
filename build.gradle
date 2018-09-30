@@ -1,21 +1,21 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlinVersion = '1.2.60'
+    ext.kotlinVersion = '1.2.71'
 
     repositories {
         google()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.4'
+        classpath 'com.android.tools.build:gradle:3.2.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
 
-    ext.supportLib = '28.0.0-alpha3'
+    ext.supportLib = '28.0.0'
     ext.constraintLayout = '1.1.2'
     ext.architectureComponents = '1.1.1'
     ext.dagger = '2.14.1'
@@ -25,7 +25,7 @@ buildscript {
     ext.gson = '2.8.2'
     ext.retrofit = '2.4.0'
     ext.okHttp = "3.8.0"
-    ext.coroutines = "0.22.5"
+    ext.coroutines = "0.30.0"
     ext.leakCanary = '1.5.4'
     ext.room = '1.1.1'
     ext.junit = '4.12'
@@ -33,7 +33,7 @@ buildscript {
     ext.espresso = '3.0.1'
     ext.mockito = '2.17.0'
     ext.mockitoKotlin = "1.5.0"
-    ext.koin = "1.0.0-beta-3"
+    ext.koin = "1.0.1"
     ext.leakCanary = "1.5.4"
     ext.glide = "4.7.1"
 }

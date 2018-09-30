@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="email_hint">Your e-mail address</string>
+    <string name="password_hint">Your password</string>
+    <string name="login_button">Log in!</string>
+    <string name="email_empty_error">You can\'t log in with an empty email :S</string>
+    <string name="email_invalid_error">This doesn\'t seem like an email, you might be missing a few things</string>
+    <string name="password_empty_error">We don\'t allow empty passwords here, try again</string>
+    <string name="password_invalid_error">The password is invalid, it needs at least 10 characters</string>
+</resources>
