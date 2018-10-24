@@ -1,6 +1,6 @@
 package com.babic.filip.register.ui
 
-import com.babic.filip.coreui.base.BaseViewModel
+import com.babic.filip.coreui.base.BasePresenter
 import com.babic.filip.networking.data.error.ApiDataTransformationException
 import com.babic.filip.networking.data.error.AuthenticationError
 import com.babic.filip.networking.data.error.NetworkException
@@ -13,8 +13,8 @@ import com.babic.filip.register.domain.interaction.RegisterUserUseCase
 import com.babic.filip.register.domain.interaction.SaveUserTokenUseCase
 import com.babic.filip.register.domain.model.UserRegistration
 
-class RegisterViewModel(private val registerUser: RegisterUserUseCase,
-                        private val saveUserToken: SaveUserTokenUseCase) : BaseViewModel<RegisterViewState, RegisterContract.View>(), RegisterContract.ViewModel {
+class RegisterPresenter(private val registerUser: RegisterUserUseCase,
+                        private val saveUserToken: SaveUserTokenUseCase) : BasePresenter<RegisterViewState, RegisterContract.View>(), RegisterContract.Presenter {
 
     private val registerData = RegisterData()
 
@@ -69,5 +69,8 @@ class RegisterViewModel(private val registerUser: RegisterUserUseCase,
         saveUserToken(userRegistration.token)
 
         dispatchRoutingAction { it.onUserRegistered() }
+    }
+
+    override fun start() {
     }
 }

@@ -1,9 +1,9 @@
 package com.babic.filip.splash.ui
 
-import com.babic.filip.coreui.base.BaseViewModel
+import com.babic.filip.coreui.base.BasePresenter
 import com.babic.filip.splash.domain.interaction.GetUserLoggedInUseCase
 
-class SplashViewModel(private val getUserLoggedInState: GetUserLoggedInUseCase) : BaseViewModel<SplashViewState, SplashContract.View>(), SplashContract.ViewModel {
+class SplashPresenter(private val getUserLoggedInState: GetUserLoggedInUseCase) : BasePresenter<SplashViewState, SplashContract.View>(), SplashContract.Presenter {
 
     override fun initialState(): SplashViewState = SplashViewState()
 
@@ -19,4 +19,7 @@ class SplashViewModel(private val getUserLoggedInState: GetUserLoggedInUseCase) 
 
     override fun login() = dispatchRoutingAction { it.showLogin() }
     override fun register() = dispatchRoutingAction { it.showRegister() }
+
+    override fun start() {
+    }
 }
