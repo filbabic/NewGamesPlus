@@ -1,16 +1,19 @@
 package com.babic.filip.gamedetails.ui
 
-import com.babic.filip.coreui.base.BaseViewModel
+import com.babic.filip.coreui.base.BasePresenter
 import com.babic.filip.gamedetails.domain.interaction.GetGameDetailsUseCase
 import com.babic.filip.gamedetails.domain.model.GameDetails
 import com.babic.filip.networking.data.model.doOnError
 import com.babic.filip.networking.data.model.doOnSuccess
 
-class GameDetailsViewModel(private val getGameDetails: GetGameDetailsUseCase) : BaseViewModel<GameDetailsViewState, GameDetailsContract.View>(), GameDetailsContract.ViewModel {
+class GameDetailsPresenter(private val getGameDetails: GetGameDetailsUseCase) : BasePresenter<GameDetailsViewState, GameDetailsContract.View>(), GameDetailsContract.Presenter {
 
     private var gameId: String = ""
 
     override fun initialState(): GameDetailsViewState = GameDetailsViewState()
+
+    override fun start() {
+    }
 
     override fun showDetails(gameId: String) {
         setGameId(gameId)

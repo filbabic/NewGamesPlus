@@ -1,13 +1,13 @@
 package com.babic.filip.gamedetails.ui
 
 import com.babic.filip.coreui.base.BaseView
-import com.babic.filip.coreui.base.StateViewModel
+import com.babic.filip.coreui.base.StatePresenter
 
 interface GameDetailsContract {
 
     interface View : BaseView
 
-    interface ViewModel : StateViewModel<GameDetailsViewState, View> {
+    interface Presenter : StatePresenter<GameDetailsViewState, View> {
 
         fun showDetails(gameId: String)
     }

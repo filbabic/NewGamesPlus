@@ -15,11 +15,10 @@ import retrofit2.Call
 import retrofit2.HttpException
 import java.io.IOException
 import java.net.ConnectException
-import java.util.concurrent.TimeUnit
 import kotlin.coroutines.experimental.suspendCoroutine
 
 private const val DEFAULT_RETRY_ATTEMPTS = 3
-private const val REPEAT_DELAY = 10L
+private const val REPEAT_DELAY = 10_000L
 
 suspend fun <T : Mappable<R>, R : Any> Call<T>.getResult(): Result<R> {
     val callWrapper: () -> Result<R>? = {
@@ -28,7 +27,9 @@ suspend fun <T : Mappable<R>, R : Any> Call<T>.getResult(): Result<R> {
         try {
             val response = call.execute()
 
-            val result = response?.body()?.run { if (isValid()) Success(mapToData()) else Failure(mapError(HttpException(response))) }
+            val result = response?.body()?.run {
+                if (isValid()) Success(mapToData()) else Failure(mapError(HttpException(response)))
+            }
             val errorResult = response?.errorBody()?.run { Failure(mapError(HttpException(response))) }
 
             result ?: errorResult
@@ -59,7 +60,7 @@ suspend fun <T : Mappable<R>, R : Any> Call<T>.getResult(): Result<R> {
             return data
         }
 
-        delay(REPEAT_DELAY, TimeUnit.SECONDS)
+        delay(REPEAT_DELAY)
     }
 
     return dataProvider() //final attempt
@@ -69,10 +70,10 @@ private val serverErrorCodes = 500..600
 private val authenticationErrorCodes = 400..499
 
 private fun mapError(error: Throwable?): Throwable? = when {
-    error is JsonParseException -> ApiDataTransformationException
-    error is IOException -> NetworkException
-    error is ConnectException -> NetworkException
-    error is HttpException && error.code() in serverErrorCodes -> ServerError
+    error is JsonParseException                                        -> ApiDataTransformationException
+    error is IOException                                               -> NetworkException
+    error is ConnectException                                          -> NetworkException
+    error is HttpException && error.code() in serverErrorCodes         -> ServerError
     error is HttpException && error.code() in authenticationErrorCodes -> AuthenticationError
-    else -> error
+    else                                                               -> error
 }

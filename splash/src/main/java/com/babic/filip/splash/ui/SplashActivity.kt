@@ -4,16 +4,16 @@ import android.os.Bundle
 import com.babic.filip.core.common.subscribe
 import com.babic.filip.coreui.base.BaseActivity
 import com.babic.filip.coreui.base.BaseView
-import com.babic.filip.coreui.base.StateViewModel
+import com.babic.filip.coreui.base.StatePresenter
 import com.babic.filip.coreui.common.isVisible
 import com.babic.filip.coreui.common.onClick
 import com.babic.filip.splash.R
 import kotlinx.android.synthetic.main.activity_splash.*
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.android.ext.android.inject
 
 class SplashActivity : BaseActivity<SplashViewState>() {
 
-    private val splashViewModel: SplashContract.ViewModel by viewModel<SplashViewModel>()
+    private val splashViewModel: SplashContract.Presenter by inject<SplashPresenter>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +35,7 @@ class SplashActivity : BaseActivity<SplashViewState>() {
 
     override fun getLayout(): Int = R.layout.activity_splash
 
-    override fun getViewModel(): StateViewModel<SplashViewState, BaseView> = splashViewModel as StateViewModel<SplashViewState, BaseView>
+    override fun getPresenter(): StatePresenter<SplashViewState, BaseView> = splashViewModel as StatePresenter<SplashViewState, BaseView>
 
     override fun getScope(): String = SPLASH_SCOPE
 }

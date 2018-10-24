@@ -1,12 +1,12 @@
 package com.babic.filip.toprated.ui
 
-import com.babic.filip.coreui.base.BaseViewModel
+import com.babic.filip.coreui.base.BasePresenter
 import com.babic.filip.networking.data.model.doOnError
 import com.babic.filip.networking.data.model.doOnSuccess
 import com.babic.filip.toprated.domain.interaction.GetTopRatedGamesUseCase
 import com.babic.filip.toprated.domain.model.TopRatedGame
 
-class TopRatedGamesViewModel(private val getTopRatedGamesUseCase: GetTopRatedGamesUseCase) : BaseViewModel<GamesViewState, TopRatedGamesContract.View>(), TopRatedGamesContract.ViewModel {
+class TopRatedGamesPresenter(private val getTopRatedGames: GetTopRatedGamesUseCase) : BasePresenter<GamesViewState, TopRatedGamesContract.View>(), TopRatedGamesContract.Presenter {
 
     private var page = 0
 
@@ -18,7 +18,7 @@ class TopRatedGamesViewModel(private val getTopRatedGamesUseCase: GetTopRatedGam
         if (!isLoading) {
             changeViewState { it.isLoading = true }
 
-            val data = getData { getTopRatedGamesUseCase(page) }
+            val data = getData { getTopRatedGames(page) }
 
             data.doOnSuccess(::onDataLoaded).doOnError { error ->
                 changeViewState { it.isLoading = false }
@@ -49,4 +49,7 @@ class TopRatedGamesViewModel(private val getTopRatedGamesUseCase: GetTopRatedGam
     }
 
     override fun showDetails(game: TopRatedGame) = dispatchRoutingAction { it.showGameDetails(game.id) }
+
+    override fun start() {
+    }
 }

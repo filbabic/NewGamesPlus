@@ -5,9 +5,11 @@ import com.babic.filip.coreui.routing.Router
 import com.babic.filip.coreui.routing.RoutingDispatcher
 import kotlinx.coroutines.experimental.channels.ReceiveChannel
 
-interface StateViewModel<Data : Any, View> {
+interface StatePresenter<Data : Any, View> {
 
     fun viewReady(view: View)
+
+    fun start()
 
     fun viewState(): ReceiveChannel<Data>
 

@@ -1,6 +1,5 @@
 package com.babic.filip.coreui.base
 
-import android.arch.lifecycle.ViewModel
 import com.babic.filip.core.coroutineContext.CoroutineContextProvider
 import com.babic.filip.coreui.routing.Router
 import com.babic.filip.coreui.routing.RoutingDispatcher
@@ -13,17 +12,15 @@ import kotlinx.coroutines.experimental.channels.ReceiveChannel
 import kotlinx.coroutines.experimental.launch
 import kotlin.coroutines.experimental.CoroutineContext
 
-abstract class BaseViewModel<Data : Any, View : BaseView> : ViewModel(), StateViewModel<Data, View>, CoroutineScope {
+abstract class BasePresenter<Data : Any, View : BaseView> : StatePresenter<Data, View>, CoroutineScope {
 
     protected var view: View? = null
-
-    private val jobs = mutableListOf<Job>()
+    private lateinit var state: Data
 
     override fun viewReady(view: View) {
         this.view = view
         checkStateChannel()
         checkInitialState()
-        start()
     }
 
     private fun checkStateChannel() {
@@ -47,43 +44,6 @@ abstract class BaseViewModel<Data : Any, View : BaseView> : ViewModel(), StateVi
         router = null
         view = null
         stateChannel.close()
-    }
-
-    private fun cancelJob(job: Job) {
-        if (job.isActive) {
-            job.cancel()
-        }
-    }
-
-    protected fun start() = Unit
-
-    protected lateinit var state: Data
-    private var stateChannel = createStateChannel()
-
-    override fun viewState(): ReceiveChannel<Data> = stateChannel.openSubscription()
-
-    private fun createStateChannel() = BroadcastChannel<Data>(Channel.CONFLATED)
-
-    private lateinit var contextProvider: CoroutineContextProvider
-
-    override fun setCoroutineContextProvider(coroutineContextProvider: CoroutineContextProvider) {
-        this.contextProvider = coroutineContextProvider
-    }
-
-    val main: CoroutineContext by lazy { contextProvider.main }
-    val background: CoroutineContext by lazy { contextProvider.io }
-
-    protected inline fun withState(consumer: (Data) -> Unit) = consumer(state)
-    protected inline fun <T> fromState(consumer: (Data) -> T) = consumer(state)
-
-    protected fun execute(action: suspend () -> Unit) {
-        jobs.add(launch(main) { action() })
-    }
-
-    protected fun pushViewState(viewState: Data) {
-        this.state = viewState
-
-        sendStateDownstream()
     }
 
     //override to provide network connection error logic
@@ -124,6 +84,36 @@ abstract class BaseViewModel<Data : Any, View : BaseView> : ViewModel(), StateVi
         router?.dispatchRoutingAction(action)
     }
 
+    private lateinit var contextProvider: CoroutineContextProvider
+
+    val main: CoroutineContext by lazy { contextProvider.main }
+    val background: CoroutineContext by lazy { contextProvider.io }
+
+    private val jobs = mutableListOf<Job>()
+
+    private var stateChannel = createStateChannel()
+
+    override fun setCoroutineContextProvider(coroutineContextProvider: CoroutineContextProvider) {
+        this.contextProvider = coroutineContextProvider
+    }
+
+    override fun viewState(): ReceiveChannel<Data> = stateChannel.openSubscription()
+
+    private fun createStateChannel() = BroadcastChannel<Data>(Channel.CONFLATED)
+
+    protected fun withState(consumer: (Data) -> Unit) = consumer(state)
+    protected fun <T> fromState(consumer: (Data) -> T) = consumer(state)
+
+    protected fun pushViewState(viewState: Data) {
+        this.state = viewState
+
+        sendStateDownstream()
+    }
+
+    protected fun execute(action: suspend () -> Unit) {
+        jobs.add(launch(main) { action() })
+    }
+
     suspend fun <T : Any> getData(dataProvider: suspend () -> T): T {
         val deferredData = async(contextProvider.io) { dataProvider() }
 
@@ -132,6 +122,11 @@ abstract class BaseViewModel<Data : Any, View : BaseView> : ViewModel(), StateVi
         return deferredData.await()
     }
 
-
     override val coroutineContext: CoroutineContext by lazy { main }
+
+    private fun cancelJob(job: Job) {
+        if (job.isActive) {
+            job.cancel()
+        }
+    }
 }

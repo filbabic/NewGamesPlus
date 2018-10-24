@@ -1,5 +1,6 @@
 package com.babic.filip.coreui.base
 
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.annotation.LayoutRes
 import android.support.v4.app.Fragment
@@ -10,13 +11,13 @@ import com.babic.filip.core.common.subscribe
 import com.babic.filip.core.coroutineContext.CoroutineContextProviderImpl
 import kotlinx.coroutines.experimental.channels.ReceiveChannel
 import org.koin.android.ext.android.get
-import org.koin.android.scope.ext.android.bindScope
-import org.koin.android.scope.ext.android.getOrCreateScope
+import org.koin.android.ext.android.getKoin
 import org.koin.core.parameter.parametersOf
 
 abstract class BaseFragment<Data : Any> : Fragment(), BaseView {
 
     protected val channels = mutableSetOf<ReceiveChannel<*>>()
+    private val scopeRetainer: ScopeRetainer by lazy { buildScopeRetainer() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(getLayout(), container, false)
@@ -24,16 +25,20 @@ abstract class BaseFragment<Data : Any> : Fragment(), BaseView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        bindScope(getOrCreateScope(getScope()))
-        getViewModel().viewReady(this)
+        initializeScope(savedInstanceState)
+        getPresenter().viewReady(this)
 
         val activity = activity as? BaseActivity<*>
-        activity?.run { initViewModel(this) }
+        activity?.run { initPresenter(this) }
     }
 
-    private fun initViewModel(baseActivity: BaseActivity<*>) {
-        getViewModel().setCoroutineContextProvider(get<CoroutineContextProviderImpl>())
-        getViewModel().setRoutingSource(get(parameters = { parametersOf(baseActivity) }))
+    private fun initializeScope(savedInstanceState: Bundle?) {
+        savedInstanceState ?: scopeRetainer.initializeScope(getScope())
+    }
+
+    private fun initPresenter(baseActivity: BaseActivity<*>) = getPresenter().run {
+        setCoroutineContextProvider(get<CoroutineContextProviderImpl>())
+        setRoutingSource(get(parameters = { parametersOf(baseActivity) }))
     }
 
     protected inline fun <reified T> addSubscription(channel: ReceiveChannel<T>, crossinline consumer: (T) -> Unit) {
@@ -51,13 +56,13 @@ abstract class BaseFragment<Data : Any> : Fragment(), BaseView {
     override fun onStop() {
         channels.forEach(::unsubscribeChannel)
         channels.clear()
-        getViewModel().viewState().cancel()
+        getPresenter().viewState().cancel()
         super.onStop()
     }
 
     override fun onDestroy() {
-        val baseViewModel = getViewModel() as? BaseViewModel<*, *>
-        baseViewModel?.onDestroy()
+        val basePresenter = getPresenter() as? BasePresenter<*, *>
+        basePresenter?.onDestroy()
 
         super.onDestroy()
     }
@@ -66,10 +71,14 @@ abstract class BaseFragment<Data : Any> : Fragment(), BaseView {
         channel.cancel()
     }
 
-    abstract fun getViewModel(): StateViewModel<Data, BaseView>
+    abstract fun getPresenter(): StatePresenter<Data, BaseView>
 
     @LayoutRes
     abstract fun getLayout(): Int
 
     abstract fun getScope(): String
+
+    private fun buildScopeRetainer(): ScopeRetainer = ViewModelProviders.of(this, getScopeFactory()).get(ScopeRetainer::class.java)
+
+    private fun getScopeFactory() = ScopeRetainerFactory(getKoin())
 }
