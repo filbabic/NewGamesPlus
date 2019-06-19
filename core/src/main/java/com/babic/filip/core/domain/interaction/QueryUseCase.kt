@@ -1,6 +1,6 @@
 package com.babic.filip.core.domain.interaction
 
-import kotlinx.coroutines.experimental.channels.Channel
+import kotlinx.coroutines.channels.Channel
 
 interface QueryUseCase<Result> {
 

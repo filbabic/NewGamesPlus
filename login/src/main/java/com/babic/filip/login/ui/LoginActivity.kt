@@ -4,18 +4,18 @@ import android.os.Bundle
 import com.babic.filip.core.common.subscribe
 import com.babic.filip.coreui.base.BaseActivity
 import com.babic.filip.coreui.base.BaseView
-import com.babic.filip.coreui.base.StateViewModel
+import com.babic.filip.coreui.base.StatePresenter
 import com.babic.filip.login.R
 import kotlinx.android.synthetic.main.activity_login.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class LoginActivity : BaseActivity<LoginViewState>() {
 
-    private val loginViewModel: StateViewModel<LoginViewState, LoginContract.View> by viewModel<LoginViewModel>()
+    private val loginPresenter: StatePresenter<LoginViewState, LoginContract.View> by viewModel<LoginPresenter>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        loginViewModel.viewState().subscribe(::onViewStateChanged)
+        loginPresenter.viewState().subscribe(::onViewStateChanged)
     }
 
     private fun onViewStateChanged(loginViewState: LoginViewState) {
@@ -25,7 +25,7 @@ class LoginActivity : BaseActivity<LoginViewState>() {
 
     override fun getLayout(): Int = R.layout.activity_login
 
-    override fun getViewModel(): StateViewModel<LoginViewState, BaseView> = loginViewModel as StateViewModel<LoginViewState, BaseView>
+    override fun getViewModel(): StatePresenter<LoginViewState, BaseView> = loginPresenter as StatePresenter<LoginViewState, BaseView>
 
     override fun getScope(): String = LOGIN_SCOPE
 }

@@ -10,13 +10,14 @@ import com.babic.filip.networking.data.model.Mappable
 import com.babic.filip.networking.data.model.Result
 import com.babic.filip.networking.data.model.Success
 import com.google.gson.JsonParseException
-import kotlinx.coroutines.experimental.delay
+import kotlinx.coroutines.delay
 import retrofit2.Call
 import retrofit2.HttpException
 import java.io.IOException
 import java.net.ConnectException
 import java.util.concurrent.TimeUnit
-import kotlin.coroutines.experimental.suspendCoroutine
+import kotlin.coroutines.suspendCoroutine
+import kotlin.coroutines.resume
 
 private const val DEFAULT_RETRY_ATTEMPTS = 3
 private const val REPEAT_DELAY = 10L
@@ -59,7 +60,7 @@ suspend fun <T : Mappable<R>, R : Any> Call<T>.getResult(): Result<R> {
             return data
         }
 
-        delay(REPEAT_DELAY, TimeUnit.SECONDS)
+        delay(TimeUnit.SECONDS.toMillis(REPEAT_DELAY))
     }
 
     return dataProvider() //final attempt

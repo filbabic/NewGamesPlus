@@ -1,11 +1,11 @@
 package com.babic.filip.main.ui
 
-import com.babic.filip.coreui.base.BaseViewModel
+import com.babic.filip.coreui.base.BasePresenter
 import com.babic.filip.coreui.base.EmptyState
 import com.babic.filip.coreui.routing.RoutingDispatcher
 import com.babic.filip.main.routing.MainRouter
 
-class MainViewModel(private val routingDispatcher: RoutingDispatcher<MainRouter>) : BaseViewModel<EmptyState, MainContract.View>(), MainContract.ViewModel {
+class MainPresenter(private val routingDispatcher: RoutingDispatcher<MainRouter>) : BasePresenter<EmptyState, MainContract.View>(), MainContract.Presenter {
 
     override fun initialState(): EmptyState = EmptyState
 

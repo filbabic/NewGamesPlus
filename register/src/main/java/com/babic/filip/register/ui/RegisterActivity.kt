@@ -4,7 +4,7 @@ import android.os.Bundle
 import com.babic.filip.core.common.subscribe
 import com.babic.filip.coreui.base.BaseActivity
 import com.babic.filip.coreui.base.BaseView
-import com.babic.filip.coreui.base.StateViewModel
+import com.babic.filip.coreui.base.StatePresenter
 import com.babic.filip.coreui.common.onClick
 import com.babic.filip.coreui.common.onTextChanged
 import com.babic.filip.coreui.common.toast
@@ -14,7 +14,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 class RegisterActivity : BaseActivity<RegisterViewState>(), RegisterContract.View {
 
-    private val viewModel: RegisterContract.ViewModel by viewModel<RegisterViewModel>()
+    private val viewModel: RegisterContract.Presenter by viewModel<RegisterPresenter>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +46,7 @@ class RegisterActivity : BaseActivity<RegisterViewState>(), RegisterContract.Vie
 
     override fun getLayout(): Int = R.layout.activity_register
     override fun getScope(): String = REGISTER_SCOPE
-    override fun getViewModel(): StateViewModel<RegisterViewState, BaseView> = viewModel as StateViewModel<RegisterViewState, BaseView>
+    override fun getViewModel(): StatePresenter<RegisterViewState, BaseView> = viewModel as StatePresenter<RegisterViewState, BaseView>
 }
 
 const val REGISTER_SCOPE = "Register"

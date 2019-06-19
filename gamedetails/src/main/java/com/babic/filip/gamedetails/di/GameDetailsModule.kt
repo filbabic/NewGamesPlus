@@ -5,16 +5,19 @@ import com.babic.filip.gamedetails.data.repository.GameDetailsRepositoryImpl
 import com.babic.filip.gamedetails.domain.interaction.GetGameDetailsUseCase
 import com.babic.filip.gamedetails.domain.repository.GameDetailsRepository
 import com.babic.filip.gamedetails.ui.GAME_DETAILS_SCOPE
-import com.babic.filip.gamedetails.ui.GameDetailsViewModel
-import org.koin.android.viewmodel.ext.koin.viewModel
-import org.koin.dsl.module.module
+import com.babic.filip.gamedetails.ui.GameDetailsPresenter
+import org.koin.android.viewmodel.dsl.viewModel
+import org.koin.core.qualifier.named
+import org.koin.dsl.module
 import retrofit2.Retrofit
 
 val gameDetailsModule = module {
 
-    scope(GAME_DETAILS_SCOPE) { get<Retrofit>().create(GameDetailsApiService::class.java) }
-    scope(GAME_DETAILS_SCOPE) { GameDetailsRepositoryImpl(get()) as GameDetailsRepository }
-    scope(GAME_DETAILS_SCOPE) { GetGameDetailsUseCase(get()) }
+    scope(named(GAME_DETAILS_SCOPE)) {
 
-    viewModel { GameDetailsViewModel(get()) }
+        scoped { get<Retrofit>().create(GameDetailsApiService::class.java) }
+        scoped { GameDetailsRepositoryImpl(get()) as GameDetailsRepository }
+        scoped { GetGameDetailsUseCase(get()) }
+        scoped { GameDetailsPresenter(get()) }
+    }
 }

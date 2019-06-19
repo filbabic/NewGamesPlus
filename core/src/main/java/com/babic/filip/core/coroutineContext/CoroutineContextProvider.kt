@@ -1,10 +1,9 @@
 package com.babic.filip.core.coroutineContext
 
-import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.Dispatchers.Default
-import kotlinx.coroutines.experimental.Dispatchers.Unconfined
-import kotlinx.coroutines.experimental.android.Main
-import kotlin.coroutines.experimental.CoroutineContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.Default
+import kotlinx.coroutines.Dispatchers.Unconfined
+import kotlin.coroutines.CoroutineContext
 
 class CoroutineContextProviderImpl : CoroutineContextProvider {
 

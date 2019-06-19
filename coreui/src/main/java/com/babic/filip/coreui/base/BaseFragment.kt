@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.babic.filip.core.common.subscribe
 import com.babic.filip.core.coroutineContext.CoroutineContextProviderImpl
-import kotlinx.coroutines.experimental.channels.ReceiveChannel
+import kotlinx.coroutines.channels.ReceiveChannel
 import org.koin.android.ext.android.get
 import org.koin.android.scope.ext.android.bindScope
 import org.koin.android.scope.ext.android.getOrCreateScope
@@ -56,7 +56,7 @@ abstract class BaseFragment<Data : Any> : Fragment(), BaseView {
     }
 
     override fun onDestroy() {
-        val baseViewModel = getViewModel() as? BaseViewModel<*, *>
+        val baseViewModel = getViewModel() as? BasePresenter<*, *>
         baseViewModel?.onDestroy()
 
         super.onDestroy()
@@ -66,7 +66,7 @@ abstract class BaseFragment<Data : Any> : Fragment(), BaseView {
         channel.cancel()
     }
 
-    abstract fun getViewModel(): StateViewModel<Data, BaseView>
+    abstract fun getViewModel(): StatePresenter<Data, BaseView>
 
     @LayoutRes
     abstract fun getLayout(): Int

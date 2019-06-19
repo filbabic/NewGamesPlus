@@ -1,10 +1,11 @@
 package com.babic.filip.login.di
 
-import com.babic.filip.login.ui.LoginViewModel
-import org.koin.android.viewmodel.ext.koin.viewModel
-import org.koin.dsl.module.module
+import com.babic.filip.login.ui.LOGIN_SCOPE
+import com.babic.filip.login.ui.LoginPresenter
+import org.koin.core.qualifier.named
+import org.koin.dsl.module
 
 val loginModule = module {
 
-    viewModel { LoginViewModel() }
+    scope(named(LOGIN_SCOPE)) { scoped { LoginPresenter() } }
 }

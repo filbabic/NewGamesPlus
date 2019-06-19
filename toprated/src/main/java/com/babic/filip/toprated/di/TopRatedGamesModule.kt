@@ -5,16 +5,18 @@ import com.babic.filip.toprated.data.repository.TopRatedGamesRepositoryImpl
 import com.babic.filip.toprated.domain.interaction.GetTopRatedGamesUseCase
 import com.babic.filip.toprated.domain.repository.TopRatedGamesRepository
 import com.babic.filip.toprated.ui.TOP_RATED_GAMES_SCOPE
-import com.babic.filip.toprated.ui.TopRatedGamesViewModel
-import org.koin.android.viewmodel.ext.koin.viewModel
-import org.koin.dsl.module.module
+import com.babic.filip.toprated.ui.TopRatedGamesPresenter
+import org.koin.core.qualifier.named
+import org.koin.dsl.module
 import retrofit2.Retrofit
 
 val topRatedGamesModule = module {
 
-    scope(TOP_RATED_GAMES_SCOPE) { get<Retrofit>().create(TopRatedGamesApiService::class.java) }
-    scope(TOP_RATED_GAMES_SCOPE) { TopRatedGamesRepositoryImpl(get()) as TopRatedGamesRepository }
-    scope(TOP_RATED_GAMES_SCOPE) { GetTopRatedGamesUseCase(get()) }
+    scope(named(TOP_RATED_GAMES_SCOPE)) {
+        scoped { get<Retrofit>().create(TopRatedGamesApiService::class.java) }
+        scoped { TopRatedGamesRepositoryImpl(get()) as TopRatedGamesRepository }
+        scoped { GetTopRatedGamesUseCase(get()) }
 
-    viewModel { TopRatedGamesViewModel(get()) }
+        scoped { TopRatedGamesPresenter(get()) }
+    }
 }

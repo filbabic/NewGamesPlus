@@ -13,7 +13,8 @@ import com.filip.babic.device.di.preferenceModule
 import com.filip.babic.newgamesplus.di.appModule
 import com.filip.babic.newgamesplus.di.navigationModule
 import com.squareup.leakcanary.LeakCanary
-import org.koin.android.ext.android.startKoin
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
 
 class App : Application() {
 
@@ -26,7 +27,11 @@ class App : Application() {
         super.onCreate()
         instance = this
 
-        startKoin(this, coreModules + featureModules)
+        startKoin{
+            androidContext(instance)
+
+            modules(coreModules + featureModules)
+        }
 
         LeakCanary.install(this)
     }
