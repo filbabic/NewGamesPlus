@@ -4,7 +4,7 @@ import android.os.Bundle
 import com.babic.filip.core.common.subscribe
 import com.babic.filip.coreui.base.BaseActivity
 import com.babic.filip.coreui.base.BaseView
-import com.babic.filip.coreui.base.StateViewModel
+import com.babic.filip.coreui.base.StatePresenter
 import com.babic.filip.coreui.imageLoading.loadImage
 import com.babic.filip.gamedetails.R
 import kotlinx.android.synthetic.main.activity_game_details.*
@@ -16,7 +16,7 @@ class GameDetailsActivity : BaseActivity<GameDetailsViewState>() {
         const val KEY_GAME_ID = "gameId"
     }
 
-    private val detailsViewModel: GameDetailsContract.ViewModel by viewModel<GameDetailsViewModel>()
+    private val detailsViewModel: GameDetailsContract.Presenter by viewModel<GameDetailsPresenter>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +40,7 @@ class GameDetailsActivity : BaseActivity<GameDetailsViewState>() {
         loadImage(cover, gameImage)
     }
 
-    override fun getViewModel(): StateViewModel<GameDetailsViewState, BaseView> = detailsViewModel as StateViewModel<GameDetailsViewState, BaseView>
+    override fun getViewModel(): StatePresenter<GameDetailsViewState, BaseView> = detailsViewModel as StatePresenter<GameDetailsViewState, BaseView>
     override fun getLayout(): Int = R.layout.activity_game_details
     override fun getScope(): String = GAME_DETAILS_SCOPE
 }

@@ -1,19 +1,18 @@
 package com.babic.filip.coreui.base
 
-import android.arch.lifecycle.ViewModel
 import com.babic.filip.core.coroutineContext.CoroutineContextProvider
 import com.babic.filip.coreui.routing.Router
 import com.babic.filip.coreui.routing.RoutingDispatcher
-import kotlinx.coroutines.experimental.CoroutineScope
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.channels.BroadcastChannel
-import kotlinx.coroutines.experimental.channels.Channel
-import kotlinx.coroutines.experimental.channels.ReceiveChannel
-import kotlinx.coroutines.experimental.launch
-import kotlin.coroutines.experimental.CoroutineContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.channels.BroadcastChannel
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.ReceiveChannel
+import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
-abstract class BaseViewModel<Data : Any, View : BaseView> : ViewModel(), StateViewModel<Data, View>, CoroutineScope {
+abstract class BasePresenter<Data : Any, View : BaseView> : StatePresenter<Data, View>, CoroutineScope {
 
     protected var view: View? = null
 

@@ -1,13 +1,13 @@
 package com.babic.filip.splash.ui
 
 import com.babic.filip.coreui.base.BaseView
-import com.babic.filip.coreui.base.StateViewModel
+import com.babic.filip.coreui.base.StatePresenter
 
 interface SplashContract {
 
     interface View : BaseView
 
-    interface ViewModel : StateViewModel<SplashViewState, View> {
+    interface Presenter : StatePresenter<SplashViewState, View> {
 
         fun checkUserLoginState()
 

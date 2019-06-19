@@ -2,13 +2,13 @@ package com.babic.filip.main.ui
 
 import com.babic.filip.coreui.base.BaseView
 import com.babic.filip.coreui.base.EmptyState
-import com.babic.filip.coreui.base.StateViewModel
+import com.babic.filip.coreui.base.StatePresenter
 
 interface MainContract {
 
     interface View : BaseView
 
-    interface ViewModel : StateViewModel<EmptyState, View> {
+    interface Presenter : StatePresenter<EmptyState, View> {
 
         fun showTopRated()
 

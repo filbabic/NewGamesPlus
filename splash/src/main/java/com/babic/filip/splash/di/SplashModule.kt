@@ -2,13 +2,16 @@ package com.babic.filip.splash.di
 
 import com.babic.filip.splash.domain.interaction.GetUserLoggedInUseCase
 import com.babic.filip.splash.ui.SPLASH_SCOPE
-import com.babic.filip.splash.ui.SplashViewModel
-import org.koin.android.viewmodel.ext.koin.viewModel
-import org.koin.dsl.module.module
+import com.babic.filip.splash.ui.SplashPresenter
+import org.koin.core.qualifier.named
+import org.koin.dsl.module
 
 val splashModule = module {
 
-    scope(SPLASH_SCOPE) { GetUserLoggedInUseCase(get()) }
+    scope(named(SPLASH_SCOPE)) {
 
-    viewModel { SplashViewModel(get()) }
+        scoped { GetUserLoggedInUseCase(get()) }
+
+        scoped { SplashPresenter(get()) }
+    }
 }

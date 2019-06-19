@@ -8,7 +8,7 @@ import com.babic.filip.core.common.subscribe
 import com.babic.filip.coreui.base.BaseFragment
 import com.babic.filip.coreui.base.BaseView
 import com.babic.filip.coreui.base.RefreshablePage
-import com.babic.filip.coreui.base.StateViewModel
+import com.babic.filip.coreui.base.StatePresenter
 import com.babic.filip.coreui.listener.LazyLoadingListener
 import com.babic.filip.toprated.R
 import com.babic.filip.toprated.domain.model.TopRatedGame
@@ -18,7 +18,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 class TopRatedGamesFragment : BaseFragment<GamesViewState>(), RefreshablePage {
 
-    private val topRatedViewModel: TopRatedGamesContract.ViewModel by viewModel<TopRatedGamesViewModel>()
+    private val topRatedViewModel: TopRatedGamesContract.Presenter by viewModel<TopRatedGamesPresenter>()
     private val gamesAdapter by lazy { GameAdapter(::onGameClicked) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -57,7 +57,7 @@ class TopRatedGamesFragment : BaseFragment<GamesViewState>(), RefreshablePage {
 
     private fun onGameClicked(game: TopRatedGame) = topRatedViewModel.showDetails(game)
 
-    override fun getViewModel(): StateViewModel<GamesViewState, BaseView> = topRatedViewModel as StateViewModel<GamesViewState, BaseView>
+    override fun getViewModel(): StatePresenter<GamesViewState, BaseView> = topRatedViewModel as StatePresenter<GamesViewState, BaseView>
 
     override fun getLayout(): Int = R.layout.fragment_top_rated_games
     override fun getScope(): String = TOP_RATED_GAMES_SCOPE

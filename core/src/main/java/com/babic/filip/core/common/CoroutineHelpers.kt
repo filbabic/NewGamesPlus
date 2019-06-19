@@ -1,12 +1,11 @@
 package com.babic.filip.core.common
 
-import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.GlobalScope
-import kotlinx.coroutines.experimental.android.Main
-import kotlinx.coroutines.experimental.channels.ReceiveChannel
-import kotlinx.coroutines.experimental.channels.consumeEach
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.channels.ReceiveChannel
+import kotlinx.coroutines.channels.consumeEach
+import kotlinx.coroutines.launch
 
 inline fun <reified T> ReceiveChannel<T>.subscribe(crossinline consumer: (T) -> Unit) {
-  GlobalScope.launch(Dispatchers.Main) { consumeEach(consumer) }
+    GlobalScope.launch(Dispatchers.Main) { consumeEach(consumer) }
 }

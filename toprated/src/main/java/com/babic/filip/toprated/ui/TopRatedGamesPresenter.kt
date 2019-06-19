@@ -1,12 +1,12 @@
 package com.babic.filip.toprated.ui
 
-import com.babic.filip.coreui.base.BaseViewModel
+import com.babic.filip.coreui.base.BasePresenter
 import com.babic.filip.networking.data.model.doOnError
 import com.babic.filip.networking.data.model.doOnSuccess
 import com.babic.filip.toprated.domain.interaction.GetTopRatedGamesUseCase
 import com.babic.filip.toprated.domain.model.TopRatedGame
 
-class TopRatedGamesViewModel(private val getTopRatedGamesUseCase: GetTopRatedGamesUseCase) : BaseViewModel<GamesViewState, TopRatedGamesContract.View>(), TopRatedGamesContract.ViewModel {
+class TopRatedGamesPresenter(private val getTopRatedGamesUseCase: GetTopRatedGamesUseCase) : BasePresenter<GamesViewState, TopRatedGamesContract.View>(), TopRatedGamesContract.Presenter {
 
     private var page = 0
 

@@ -3,9 +3,9 @@ package com.babic.filip.coreui.base
 import com.babic.filip.core.coroutineContext.CoroutineContextProvider
 import com.babic.filip.coreui.routing.Router
 import com.babic.filip.coreui.routing.RoutingDispatcher
-import kotlinx.coroutines.experimental.channels.ReceiveChannel
+import kotlinx.coroutines.channels.ReceiveChannel
 
-interface StateViewModel<Data : Any, View> {
+interface StatePresenter<Data : Any, View> {
 
     fun viewReady(view: View)
 

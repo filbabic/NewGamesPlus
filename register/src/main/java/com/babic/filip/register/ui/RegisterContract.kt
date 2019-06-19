@@ -1,13 +1,13 @@
 package com.babic.filip.register.ui
 
 import com.babic.filip.coreui.base.BaseView
-import com.babic.filip.coreui.base.StateViewModel
+import com.babic.filip.coreui.base.StatePresenter
 
 interface RegisterContract {
 
     interface View : BaseView
 
-    interface ViewModel : StateViewModel<RegisterViewState, View> {
+    interface Presenter : StatePresenter<RegisterViewState, View> {
 
         fun usernameChanged(username: String)
 

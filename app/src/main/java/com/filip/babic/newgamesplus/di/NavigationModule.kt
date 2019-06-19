@@ -5,7 +5,7 @@ import com.babic.filip.coreui.routing.Router
 import com.babic.filip.coreui.routing.RoutingDispatcher
 import com.filip.babic.newgamesplus.routing.NavigationRouter
 import com.filip.babic.newgamesplus.routing.RoutingMediator
-import org.koin.dsl.module.module
+import org.koin.dsl.module
 
 val navigationModule = module {
     factory {
