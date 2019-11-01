@@ -1,88 +1,58 @@
 package com.babic.filip.coreui.base
 
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MutableLiveData
+import android.util.Log
 import com.babic.filip.core.coroutineContext.CoroutineContextProvider
 import com.babic.filip.coreui.routing.Router
 import com.babic.filip.coreui.routing.RoutingDispatcher
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
-import kotlinx.coroutines.channels.BroadcastChannel
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.ReceiveChannel
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
-abstract class BasePresenter<Data : Any, View : BaseView> : StatePresenter<Data, View>, CoroutineScope {
+abstract class BasePresenter<Data : Any, View : BaseView>(
+        private val contextProvider: CoroutineContextProvider
+) : StatePresenter<Data, View>, CoroutineScope {
 
     protected var view: View? = null
 
-    private val jobs = mutableListOf<Job>()
+    private val viewState = MutableLiveData<Data>()
+
+    private var router: RoutingDispatcher<Router>? = null
+
+    private val parentJob = SupervisorJob()
+
+    private val defaultExceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        Log.d("CoroutineException", "Exception occurred in ${Thread.currentThread().name}")
+        Log.d("ExceptionMessage", throwable.message ?: "Message unknown")
+    }
 
     override fun viewReady(view: View) {
         this.view = view
-        checkStateChannel()
         checkInitialState()
         start()
-    }
-
-    private fun checkStateChannel() {
-        if (stateChannel.isClosedForSend) {
-            stateChannel = createStateChannel()
-            checkInitialState()
-        }
     }
 
     abstract fun initialState(): Data
 
     private fun checkInitialState() {
-        val currentState = if (!::state.isInitialized) initialState() else state
+        val data = viewState.value
+        val currentState = data ?: initialState()
 
         pushViewState(currentState)
     }
 
     fun onDestroy() {
-        jobs.forEach(::cancelJob)
-        jobs.clear()
+        parentJob.cancelChildren()
         router = null
         view = null
-        stateChannel.close()
-    }
-
-    private fun cancelJob(job: Job) {
-        if (job.isActive) {
-            job.cancel()
-        }
     }
 
     protected fun start() = Unit
 
-    protected lateinit var state: Data
-    private var stateChannel = createStateChannel()
+    override fun viewState(): LiveData<Data> = viewState
 
-    override fun viewState(): ReceiveChannel<Data> = stateChannel.openSubscription()
-
-    private fun createStateChannel() = BroadcastChannel<Data>(Channel.CONFLATED)
-
-    private lateinit var contextProvider: CoroutineContextProvider
-
-    override fun setCoroutineContextProvider(coroutineContextProvider: CoroutineContextProvider) {
-        this.contextProvider = coroutineContextProvider
-    }
-
-    val main: CoroutineContext by lazy { contextProvider.main }
-    val background: CoroutineContext by lazy { contextProvider.io }
-
-    protected inline fun withState(consumer: (Data) -> Unit) = consumer(state)
-    protected inline fun <T> fromState(consumer: (Data) -> T) = consumer(state)
-
-    protected fun execute(action: suspend () -> Unit) {
-        jobs.add(launch(main) { action() })
-    }
-
-    protected fun pushViewState(viewState: Data) {
-        this.state = viewState
-
-        sendStateDownstream()
+    protected fun pushViewState(newState: Data) {
+        viewState.postValue(newState)
     }
 
     //override to provide network connection error logic
@@ -97,23 +67,13 @@ abstract class BasePresenter<Data : Any, View : BaseView> : StatePresenter<Data,
     //override to provide authentication error logic
     open fun showAuthenticationError() = runViewCommand { it.showAuthenticationError() }
 
-    protected fun runViewCommand(command: (View) -> Unit) {
+    protected inline fun runViewCommand(command: (View) -> Unit) {
         view?.run(command)
     }
 
-    protected fun changeViewState(editor: (Data) -> Unit) {
-        withState(editor)
-
-        sendStateDownstream()
+    protected inline fun execute(crossinline action: suspend () -> Unit) {
+        launch { action() }
     }
-
-    private fun sendStateDownstream() {
-        if (!stateChannel.isClosedForSend) {
-            stateChannel.offer(state)
-        }
-    }
-
-    private var router: RoutingDispatcher<Router>? = null
 
     override fun setRoutingSource(routingDispatcher: RoutingDispatcher<Router>) {
         this.router = routingDispatcher
@@ -123,14 +83,6 @@ abstract class BasePresenter<Data : Any, View : BaseView> : StatePresenter<Data,
         router?.dispatchRoutingAction(action)
     }
 
-    suspend fun <T : Any> getData(dataProvider: suspend () -> T): T {
-        val deferredData = async(contextProvider.io) { dataProvider() }
-
-        jobs.add(deferredData)
-
-        return deferredData.await()
-    }
-
-
-    override val coroutineContext: CoroutineContext by lazy { main }
+    override val coroutineContext: CoroutineContext
+        get() = contextProvider.context + defaultExceptionHandler + parentJob
 }

@@ -1,5 +1,6 @@
 package com.babic.filip.splash.di
 
+import com.babic.filip.core.di.DEFAULT_CONTEXT
 import com.babic.filip.splash.domain.interaction.GetUserLoggedInUseCase
 import com.babic.filip.splash.ui.SPLASH_SCOPE
 import com.babic.filip.splash.ui.SplashPresenter
@@ -12,6 +13,6 @@ val splashModule = module {
 
         scoped { GetUserLoggedInUseCase(get()) }
 
-        scoped { SplashPresenter(get()) }
+        scoped { SplashPresenter(get(named(DEFAULT_CONTEXT)), get()) }
     }
 }

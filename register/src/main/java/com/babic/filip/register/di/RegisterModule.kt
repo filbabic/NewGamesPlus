@@ -1,5 +1,6 @@
 package com.babic.filip.register.di
 
+import com.babic.filip.core.di.DEFAULT_CONTEXT
 import com.babic.filip.register.data.networking.RegisterApiService
 import com.babic.filip.register.data.repository.RegisterRepositoryImpl
 import com.babic.filip.register.domain.interaction.RegisterUserUseCase
@@ -14,6 +15,7 @@ import retrofit2.Retrofit
 val registerModule = module {
 
     scope(named(REGISTER_SCOPE)) {
+
         scoped { RegisterUserUseCase(get()) }
 
         scoped { SaveUserTokenUseCase(get()) }
@@ -22,6 +24,6 @@ val registerModule = module {
 
         scoped { RegisterRepositoryImpl(get()) as RegisterRepository }
 
-        scoped { RegisterPresenter(get(), get()) }
+        scoped { RegisterPresenter(get(named(DEFAULT_CONTEXT)), get(), get()) }
     }
 }

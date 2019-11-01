@@ -10,11 +10,12 @@ import com.babic.filip.register.di.registerModule
 import com.babic.filip.splash.di.splashModule
 import com.babic.filip.toprated.di.topRatedGamesModule
 import com.filip.babic.device.di.preferenceModule
-import com.filip.babic.newgamesplus.di.appModule
 import com.filip.babic.newgamesplus.di.navigationModule
 import com.squareup.leakcanary.LeakCanary
 import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
+import org.koin.core.logger.Level
 
 class App : Application() {
 
@@ -27,7 +28,8 @@ class App : Application() {
         super.onCreate()
         instance = this
 
-        startKoin{
+        startKoin {
+            androidLogger(level = Level.DEBUG)
             androidContext(instance)
 
             modules(coreModules + featureModules)
@@ -39,13 +41,12 @@ class App : Application() {
     private val coreModules = listOf(
             coreModule,
             networkingModule(BuildConfig.DEBUG),
-            navigationModule,
-            appModule
+            navigationModule
     )
 
     private val featureModules = listOf(
-            registerModule,
             splashModule,
+            registerModule,
             loginModule,
             preferenceModule,
             mainModule,

@@ -1,5 +1,6 @@
 package com.babic.filip.main.di
 
+import com.babic.filip.core.di.DEFAULT_CONTEXT
 import com.babic.filip.coreui.base.BaseActivity
 import com.babic.filip.main.routing.MainNavigationRouter
 import com.babic.filip.main.routing.MainRouterMediator
@@ -18,7 +19,7 @@ val mainModule = module {
             val mainNavigator = MainNavigationRouter(activity.supportFragmentManager)
             val routingDispatcher = MainRouterMediator(mainNavigator)
 
-            MainPresenter(routingDispatcher)
+            MainPresenter(get(named(DEFAULT_CONTEXT)), routingDispatcher)
         }
     }
 }

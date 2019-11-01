@@ -1,17 +1,14 @@
 package com.babic.filip.coreui.base
 
-import com.babic.filip.core.coroutineContext.CoroutineContextProvider
+import android.arch.lifecycle.LiveData
 import com.babic.filip.coreui.routing.Router
 import com.babic.filip.coreui.routing.RoutingDispatcher
-import kotlinx.coroutines.channels.ReceiveChannel
 
 interface StatePresenter<Data : Any, View> {
 
     fun viewReady(view: View)
 
-    fun viewState(): ReceiveChannel<Data>
+    fun viewState(): LiveData<Data>
 
     fun setRoutingSource(routingDispatcher: RoutingDispatcher<Router>)
-
-    fun setCoroutineContextProvider(coroutineContextProvider: CoroutineContextProvider)
 }

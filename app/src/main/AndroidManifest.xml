@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest package="com.filip.babic.newgamesplus"
-          xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <uses-permission android:name="android.permission.INTERNET"/>
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
         android:name=".App"
@@ -14,16 +12,18 @@
         android:theme="@style/AppTheme">
         <activity android:name="com.babic.filip.splash.ui.SplashActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name="com.babic.filip.login.ui.LoginActivity"/>
-        <activity android:name="com.babic.filip.register.ui.RegisterActivity"/>
-        <activity android:name="com.babic.filip.main.ui.MainActivity"/>
-        <activity android:name="com.babic.filip.gamedetails.ui.GameDetailsActivity"/>
+        <activity android:name="com.babic.filip.login.ui.LoginActivity" />
+        <activity android:name="com.babic.filip.register.ui.RegisterActivity" />
+        <activity android:name="com.babic.filip.main.ui.MainActivity" />
+        <activity android:name="com.babic.filip.gamedetails.ui.GameDetailsActivity" />
     </application>
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>
