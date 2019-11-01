@@ -1,9 +1,13 @@
 package com.babic.filip.splash.ui
 
+import com.babic.filip.core.coroutineContext.CoroutineContextProvider
 import com.babic.filip.coreui.base.BasePresenter
 import com.babic.filip.splash.domain.interaction.GetUserLoggedInUseCase
 
-class SplashPresenter(private val getUserLoggedInState: GetUserLoggedInUseCase) : BasePresenter<SplashViewState, SplashContract.View>(), SplashContract.Presenter {
+class SplashPresenter(
+        contextProvider: CoroutineContextProvider,
+        private val getUserLoggedInState: GetUserLoggedInUseCase) :
+        BasePresenter<SplashViewState, SplashContract.View>(contextProvider), SplashContract.Presenter {
 
     override fun initialState(): SplashViewState = SplashViewState()
 
@@ -13,10 +17,11 @@ class SplashPresenter(private val getUserLoggedInState: GetUserLoggedInUseCase) 
         if (isLoggedIn) {
             dispatchRoutingAction { it.showMain() }
         } else {
-            changeViewState { it.isLoggedIn = false }
+            pushViewState(SplashViewState(isLoggedIn = false))
         }
     }
 
     override fun login() = dispatchRoutingAction { it.showLogin() }
+
     override fun register() = dispatchRoutingAction { it.showRegister() }
 }

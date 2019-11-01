@@ -1,5 +1,15 @@
 package com.babic.filip.gamedetails.ui
 
-import com.babic.filip.gamedetails.domain.model.GameDetails
+class GameDetailsViewState(val id: String,
+                           val name: String,
+                           val summary: String,
+                           val url: String,
+                           val storyline: String,
+                           val popularity: Double,
+                           val totalRating: Double,
+                           val cover: String) {
 
-class GameDetailsViewState(var gameDetails: GameDetails = GameDetails())
+    companion object {
+        val EMPTY = GameDetailsViewState("", "", "", "", "", 0.0, 0.0, "")
+    }
+}

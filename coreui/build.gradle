@@ -36,6 +36,7 @@ dependencies {
 
     //architecture components
     implementation "android.arch.lifecycle:viewmodel:$architectureComponents"
+    implementation "android.arch.lifecycle:extensions:$architectureComponents"
     kapt "android.arch.lifecycle:compiler:$architectureComponents"
 
     //di

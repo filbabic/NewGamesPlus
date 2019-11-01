@@ -1,7 +1,6 @@
 package com.babic.filip.register.ui
 
 import android.os.Bundle
-import com.babic.filip.core.common.subscribe
 import com.babic.filip.coreui.base.BaseActivity
 import com.babic.filip.coreui.base.BaseView
 import com.babic.filip.coreui.base.StatePresenter
@@ -10,33 +9,31 @@ import com.babic.filip.coreui.common.onTextChanged
 import com.babic.filip.coreui.common.toast
 import com.babic.filip.register.R
 import kotlinx.android.synthetic.main.activity_register.*
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.android.ext.android.inject
 
 class RegisterActivity : BaseActivity<RegisterViewState>(), RegisterContract.View {
 
-    private val viewModel: RegisterContract.Presenter by viewModel<RegisterPresenter>()
+    private val presenter: RegisterContract.Presenter by inject<RegisterPresenter>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initUi()
-
-        viewModel.viewState().subscribe(::onDataChanged)
     }
 
     private fun initUi() {
-        usernameInput.onTextChanged(viewModel::usernameChanged)
-        emailInput.onTextChanged(viewModel::emailChanged)
-        passwordInput.onTextChanged(viewModel::passwordChanged)
+        usernameInput.onTextChanged(presenter::usernameChanged)
+        emailInput.onTextChanged(presenter::emailChanged)
+        passwordInput.onTextChanged(presenter::passwordChanged)
 
-        register.onClick(viewModel::registerUser)
+        register.onClick(presenter::registerUser)
     }
 
-    private fun onDataChanged(registerViewState: RegisterViewState) {
-        usernameRoot.error = registerViewState.usernameError?.getError(this)
-        emailRoot.error = registerViewState.emailError?.getError(this)
-        passwordRoot.error = registerViewState.passwordError?.getError(this)
+    override fun onViewStateChanged(viewState: RegisterViewState) {
+        usernameRoot.error = viewState.usernameError?.getError(this)
+        emailRoot.error = viewState.emailError?.getError(this)
+        passwordRoot.error = viewState.passwordError?.getError(this)
 
-        register.isEnabled = registerViewState.isValidData
+        register.isEnabled = viewState.isValidData
     }
 
     override fun showAuthenticationError() = toast(R.string.invalid_credentials_error)
@@ -46,7 +43,7 @@ class RegisterActivity : BaseActivity<RegisterViewState>(), RegisterContract.Vie
 
     override fun getLayout(): Int = R.layout.activity_register
     override fun getScope(): String = REGISTER_SCOPE
-    override fun getViewModel(): StatePresenter<RegisterViewState, BaseView> = viewModel as StatePresenter<RegisterViewState, BaseView>
+    override fun getPresenter(): StatePresenter<RegisterViewState, BaseView> = presenter as StatePresenter<RegisterViewState, BaseView>
 }
 
 const val REGISTER_SCOPE = "Register"

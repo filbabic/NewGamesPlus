@@ -1,22 +1,23 @@
 package com.babic.filip.coreui.base
 
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.annotation.LayoutRes
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.babic.filip.core.common.subscribe
-import com.babic.filip.core.coroutineContext.CoroutineContextProviderImpl
-import kotlinx.coroutines.channels.ReceiveChannel
+import com.babic.filip.coreui.common.subscribe
+import com.babic.filip.coreui.scope.ScopeRetainer
+import com.babic.filip.coreui.scope.ScopeRetainerFactory
 import org.koin.android.ext.android.get
-import org.koin.android.scope.ext.android.bindScope
-import org.koin.android.scope.ext.android.getOrCreateScope
+import org.koin.android.ext.android.getKoin
+import org.koin.android.scope.currentScope
 import org.koin.core.parameter.parametersOf
 
 abstract class BaseFragment<Data : Any> : Fragment(), BaseView {
 
-    protected val channels = mutableSetOf<ReceiveChannel<*>>()
+    private val scopeRetainer: ScopeRetainer by lazy { buildScopeRetainer() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(getLayout(), container, false)
@@ -24,21 +25,26 @@ abstract class BaseFragment<Data : Any> : Fragment(), BaseView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        bindScope(getOrCreateScope(getScope()))
-        getViewModel().viewReady(this)
+        initializeScope(savedInstanceState)
+        getPresenter().viewReady(this)
 
         val activity = activity as? BaseActivity<*>
-        activity?.run { initViewModel(this) }
+        activity?.run { initPresenter(this) }
+        subscribeToViewState()
     }
 
-    private fun initViewModel(baseActivity: BaseActivity<*>) {
-        getViewModel().setCoroutineContextProvider(get<CoroutineContextProviderImpl>())
-        getViewModel().setRoutingSource(get(parameters = { parametersOf(baseActivity) }))
+    private fun subscribeToViewState() {
+        getPresenter().viewState().subscribe(this, ::onViewStateChanged)
     }
 
-    protected inline fun <reified T> addSubscription(channel: ReceiveChannel<T>, crossinline consumer: (T) -> Unit) {
-        channels.add(channel)
-        channel.subscribe(consumer)
+    abstract fun onViewStateChanged(viewState: Data)
+
+    private fun initializeScope(savedInstanceState: Bundle?) {
+        savedInstanceState ?: scopeRetainer.initializeScope(getScope())
+    }
+
+    private fun initPresenter(baseActivity: BaseActivity<*>) {
+        getPresenter().setRoutingSource(get(parameters = { parametersOf(baseActivity) }))
     }
 
     //override to provide extra behaviour for error handling, leave it as is when you don't need to handle certain errors
@@ -48,28 +54,21 @@ abstract class BaseFragment<Data : Any> : Fragment(), BaseView {
     override fun showParseError() = Unit
     override fun showServerError() = Unit
 
-    override fun onStop() {
-        channels.forEach(::unsubscribeChannel)
-        channels.clear()
-        getViewModel().viewState().cancel()
-        super.onStop()
-    }
-
     override fun onDestroy() {
-        val baseViewModel = getViewModel() as? BasePresenter<*, *>
+        val baseViewModel = getPresenter() as? BasePresenter<*, *>
         baseViewModel?.onDestroy()
 
         super.onDestroy()
     }
 
-    private fun unsubscribeChannel(channel: ReceiveChannel<*>) {
-        channel.cancel()
-    }
-
-    abstract fun getViewModel(): StatePresenter<Data, BaseView>
+    abstract fun getPresenter(): StatePresenter<Data, BaseView>
 
     @LayoutRes
     abstract fun getLayout(): Int
 
     abstract fun getScope(): String
+
+    private fun buildScopeRetainer(): ScopeRetainer = ViewModelProviders.of(this, getScopeFactory()).get(ScopeRetainer::class.java)
+
+    private fun getScopeFactory() = ScopeRetainerFactory()
 }

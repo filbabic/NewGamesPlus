@@ -11,6 +11,8 @@ class MainNavigationRouter(private val fragmentManager: FragmentManager) : MainR
     private var refreshablePage: RefreshablePage? = null
     private val fragmentContainer by lazy { R.id.fragmentContainer }
 
+    // TODO lazy evaluated fragments for each of the pages
+
     override fun showFeed() {
     }
 

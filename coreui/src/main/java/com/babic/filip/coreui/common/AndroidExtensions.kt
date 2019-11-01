@@ -1,5 +1,8 @@
 package com.babic.filip.coreui.common
 
+import android.arch.lifecycle.LifecycleOwner
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.Observer
 import android.content.Context
 import android.support.annotation.StringRes
 import android.support.v4.app.Fragment
@@ -23,3 +26,10 @@ fun FragmentManager.replace(fragment: Fragment, containerId: Int) {
                 .commit()
     }
 }
+
+inline fun <T> LiveData<T>.subscribe(owner: LifecycleOwner, crossinline onDataChange: (T) -> Unit) =
+        this.observe(owner, Observer { value ->
+            if (value != null) {
+                onDataChange(value)
+            }
+        })

@@ -1,37 +1,38 @@
 package com.babic.filip.coreui.base
 
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.annotation.LayoutRes
 import android.support.v7.app.AppCompatActivity
-import com.babic.filip.core.common.subscribe
-import com.babic.filip.core.coroutineContext.CoroutineContextProviderImpl
-import kotlinx.coroutines.channels.ReceiveChannel
+import com.babic.filip.coreui.common.subscribe
+import com.babic.filip.coreui.scope.ScopeRetainer
+import com.babic.filip.coreui.scope.ScopeRetainerFactory
 import org.koin.android.ext.android.get
-import org.koin.android.scope.ext.android.bindScope
-import org.koin.android.scope.ext.android.getOrCreateScope
+import org.koin.android.ext.android.getKoin
 import org.koin.core.parameter.parametersOf
+import org.koin.core.qualifier.named
 
 abstract class BaseActivity<Data : Any> : AppCompatActivity(), BaseView {
 
-    protected val channels = mutableSetOf<ReceiveChannel<*>>()
+    private val scopeRetainer: ScopeRetainer by lazy { buildScopeRetainer() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        getKoin().getOrCreateScope(getScope(), named(getScope()))
         setContentView(getLayout())
-        bindScope(getOrCreateScope(getScope()))
-        initViewModel()
+        initializeScope(savedInstanceState)
+        initPresenter()
 
-        getViewModel().viewReady(this)
+        getPresenter().viewReady(this)
+        subscribeToViewState()
     }
 
-    private fun initViewModel() {
-        getViewModel().setCoroutineContextProvider(get<CoroutineContextProviderImpl>())
-        getViewModel().setRoutingSource(get(parameters = { parametersOf(this) }))
+    private fun initializeScope(savedInstanceState: Bundle?) {
+        savedInstanceState ?: scopeRetainer.initializeScope(getScope())
     }
 
-    protected inline fun <reified T> addSubscription(channel: ReceiveChannel<T>, crossinline consumer: (T) -> Unit) {
-        channels.add(channel)
-        channel.subscribe(consumer)
+    private fun initPresenter() {
+        getPresenter().setRoutingSource(get(parameters = { parametersOf(this) }))
     }
 
     //override to provide extra behaviour for error handling, leave it as is when you don't need to handle certain errors
@@ -41,28 +42,27 @@ abstract class BaseActivity<Data : Any> : AppCompatActivity(), BaseView {
     override fun showParseError() = Unit
     override fun showServerError() = Unit
 
-    override fun onStop() {
-        channels.forEach(::unsubscribeChannel)
-        channels.clear()
-        getViewModel().viewState().cancel()
-        super.onStop()
+    private fun subscribeToViewState() {
+        getPresenter().viewState().subscribe(this, ::onViewStateChanged)
     }
 
+    abstract fun onViewStateChanged(viewState: Data)
+
     override fun onDestroy() {
-        val baseViewModel = getViewModel() as? BasePresenter<*, *>
+        val baseViewModel = getPresenter() as? BasePresenter<*, *>
         baseViewModel?.onDestroy()
 
         super.onDestroy()
     }
 
-    private fun unsubscribeChannel(channel: ReceiveChannel<*>) {
-        channel.cancel()
-    }
-
-    abstract fun getViewModel(): StatePresenter<Data, BaseView>
+    abstract fun getPresenter(): StatePresenter<Data, BaseView>
 
     @LayoutRes
     abstract fun getLayout(): Int
 
     abstract fun getScope(): String
+
+    private fun buildScopeRetainer(): ScopeRetainer = ViewModelProviders.of(this, getScopeFactory()).get(ScopeRetainer::class.java)
+
+    private fun getScopeFactory() = ScopeRetainerFactory()
 }

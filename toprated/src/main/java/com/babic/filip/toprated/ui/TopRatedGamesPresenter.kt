@@ -1,42 +1,44 @@
 package com.babic.filip.toprated.ui
 
+import com.babic.filip.core.coroutineContext.CoroutineContextProvider
 import com.babic.filip.coreui.base.BasePresenter
 import com.babic.filip.networking.data.model.doOnError
 import com.babic.filip.networking.data.model.doOnSuccess
 import com.babic.filip.toprated.domain.interaction.GetTopRatedGamesUseCase
 import com.babic.filip.toprated.domain.model.TopRatedGame
 
-class TopRatedGamesPresenter(private val getTopRatedGamesUseCase: GetTopRatedGamesUseCase) : BasePresenter<GamesViewState, TopRatedGamesContract.View>(), TopRatedGamesContract.Presenter {
+class TopRatedGamesPresenter(
+        contextProvider: CoroutineContextProvider,
+        private val getTopRatedGamesUseCase: GetTopRatedGamesUseCase,
+        private val mapper: TopRatedGamesViewStateMapper)
+    : BasePresenter<GamesViewState, TopRatedGamesContract.View>(contextProvider), TopRatedGamesContract.Presenter {
 
     private var page = 0
+    private var isLoading = false
 
     override fun initialState(): GamesViewState = GamesViewState()
 
     override fun getTopRatedGames() = execute {
-        val isLoading = fromState { it.isLoading }
-
         if (!isLoading) {
-            changeViewState { it.isLoading = true }
+            isLoading = true
 
-            val data = getData { getTopRatedGamesUseCase(page) }
+            val data = getTopRatedGamesUseCase(page)
 
             data.doOnSuccess(::onDataLoaded).doOnError { error ->
-                changeViewState { it.isLoading = false }
+                isLoading = false
                 processError(error)
             }
         }
     }
 
     private fun onDataLoaded(games: List<TopRatedGame>) {
-        val currentPage = page
         page++
 
-        changeViewState { viewState ->
-            val allItems = if (currentPage == 0) games else viewState.games + games
+        val viewState = viewState().value
+        val totalGames = if (viewState == null || viewState.games.isEmpty()) games else viewState.games + games
 
-            viewState.games = allItems
-            viewState.isLoading = false
-        }
+        isLoading = false
+        pushViewState(mapper.mapToViewState(totalGames))
     }
 
     private fun processError(error: Throwable?) {
