@@ -8,11 +8,10 @@ import com.babic.filip.coreui.common.isVisible
 import com.babic.filip.coreui.common.onClick
 import com.babic.filip.splash.R
 import kotlinx.android.synthetic.main.activity_splash.*
-import org.koin.android.ext.android.inject
 
 class SplashActivity : BaseActivity<SplashViewState>() {
 
-    private val presenter: SplashContract.Presenter by inject<SplashPresenter>()
+    private val presenter: SplashContract.Presenter by lazy { scope.get<SplashPresenter>() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

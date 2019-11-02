@@ -9,12 +9,13 @@ import com.babic.filip.coreui.common.onNavigationItemReselected
 import com.babic.filip.coreui.common.onNavigationItemSelected
 import com.babic.filip.main.R
 import kotlinx.android.synthetic.main.activity_main.*
-import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 
 class MainActivity : BaseActivity<EmptyState>() {
 
-    private val mainPresenter: MainContract.Presenter by inject<MainPresenter>(parameters = { parametersOf(this) })
+    private val mainPresenter: MainContract.Presenter by lazy {
+        scope.get<MainPresenter>(parameters = { parametersOf(this) })
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -13,11 +13,10 @@ import com.babic.filip.toprated.R
 import com.babic.filip.toprated.domain.model.TopRatedGame
 import com.babic.filip.toprated.list.GameAdapter
 import kotlinx.android.synthetic.main.fragment_top_rated_games.*
-import org.koin.android.ext.android.inject
 
 class TopRatedGamesFragment : BaseFragment<GamesViewState>(), RefreshablePage {
 
-    private val presenter: TopRatedGamesContract.Presenter by inject<TopRatedGamesPresenter>()
+    private val presenter: TopRatedGamesContract.Presenter by lazy { scope.get<TopRatedGamesPresenter>() }
     private val gamesAdapter by lazy { GameAdapter(::onGameClicked) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

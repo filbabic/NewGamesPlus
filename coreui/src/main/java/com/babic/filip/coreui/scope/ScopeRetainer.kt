@@ -3,20 +3,22 @@ package com.babic.filip.coreui.scope
 import android.arch.lifecycle.ViewModel
 import org.koin.core.KoinComponent
 import org.koin.core.qualifier.named
+import org.koin.core.scope.Scope
 
 class ScopeRetainer : ViewModel(), KoinComponent {
 
-    private lateinit var currentScope: String
+    private lateinit var currentScopeId: String
 
     fun initializeScope(scopeId: String) {
-        this.currentScope = scopeId
-        getKoin().getOrCreateScope(currentScope, named(currentScope))
+        this.currentScopeId = scopeId
+        getKoin().getOrCreateScope(currentScopeId, named(currentScopeId))
     }
 
-    fun scope() = getKoin().getScope(currentScope)
+    val scope: Scope
+        get() = getKoin().getScope(currentScopeId)
 
     override fun onCleared() {
-        this.getKoin().getScope(currentScope).close()
+        scope.close()
         super.onCleared()
     }
 }
