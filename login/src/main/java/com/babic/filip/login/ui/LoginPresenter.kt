@@ -6,7 +6,7 @@ import com.babic.filip.coreui.base.StatePresenter
 
 class LoginPresenter(
         contextProvider: CoroutineContextProvider
-) : BasePresenter<LoginViewState, LoginContract.View>(contextProvider), StatePresenter<LoginViewState, LoginContract.View> {
+) : BasePresenter<LoginViewState, LoginContract.View>(contextProvider), LoginContract.Presenter {
 
     override fun initialState(): LoginViewState = LoginViewState()
 }

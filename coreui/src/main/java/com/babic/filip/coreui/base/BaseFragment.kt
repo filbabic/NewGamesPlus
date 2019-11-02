@@ -11,13 +11,14 @@ import com.babic.filip.coreui.common.subscribe
 import com.babic.filip.coreui.scope.ScopeRetainer
 import com.babic.filip.coreui.scope.ScopeRetainerFactory
 import org.koin.android.ext.android.get
-import org.koin.android.ext.android.getKoin
-import org.koin.android.scope.currentScope
 import org.koin.core.parameter.parametersOf
+import org.koin.core.scope.Scope
 
 abstract class BaseFragment<Data : Any> : Fragment(), BaseView {
 
     private val scopeRetainer: ScopeRetainer by lazy { buildScopeRetainer() }
+    protected val scope: Scope
+        get() = scopeRetainer.scope
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(getLayout(), container, false)

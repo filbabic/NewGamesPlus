@@ -7,7 +7,6 @@ import com.babic.filip.coreui.base.StatePresenter
 import com.babic.filip.coreui.imageLoading.loadImage
 import com.babic.filip.gamedetails.R
 import kotlinx.android.synthetic.main.activity_game_details.*
-import org.koin.android.ext.android.inject
 
 class GameDetailsActivity : BaseActivity<GameDetailsViewState>() {
 
@@ -15,7 +14,7 @@ class GameDetailsActivity : BaseActivity<GameDetailsViewState>() {
         const val KEY_GAME_ID = "gameId"
     }
 
-    private val presenter: GameDetailsContract.Presenter by inject<GameDetailsPresenter>()
+    private val presenter: GameDetailsContract.Presenter by lazy { scope.get<GameDetailsPresenter>() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -9,11 +9,10 @@ import com.babic.filip.coreui.common.onTextChanged
 import com.babic.filip.coreui.common.toast
 import com.babic.filip.register.R
 import kotlinx.android.synthetic.main.activity_register.*
-import org.koin.android.ext.android.inject
 
 class RegisterActivity : BaseActivity<RegisterViewState>(), RegisterContract.View {
 
-    private val presenter: RegisterContract.Presenter by inject<RegisterPresenter>()
+    private val presenter: RegisterContract.Presenter by lazy { scope.get<RegisterPresenter>() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

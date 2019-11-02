@@ -5,15 +5,14 @@ import com.babic.filip.coreui.base.BaseView
 import com.babic.filip.coreui.base.StatePresenter
 import com.babic.filip.login.R
 import kotlinx.android.synthetic.main.activity_login.*
-import org.koin.android.ext.android.inject
 
 class LoginActivity : BaseActivity<LoginViewState>() {
 
-    private val loginPresenter: StatePresenter<LoginViewState, LoginContract.View> by inject<LoginPresenter>()
+    private val loginPresenter: LoginContract.Presenter by lazy { scope.get<LoginPresenter>() }
 
-    override fun onViewStateChanged(loginViewState: LoginViewState) {
-        passwordRoot.error = loginViewState.passwordError?.getError(this)
-        emailRoot.error = loginViewState.emailError?.getError(this)
+    override fun onViewStateChanged(viewState: LoginViewState) {
+        passwordRoot.error = viewState.passwordError?.getError(this)
+        emailRoot.error = viewState.emailError?.getError(this)
     }
 
     override fun getLayout(): Int = R.layout.activity_login

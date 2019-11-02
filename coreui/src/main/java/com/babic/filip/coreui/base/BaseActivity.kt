@@ -8,17 +8,17 @@ import com.babic.filip.coreui.common.subscribe
 import com.babic.filip.coreui.scope.ScopeRetainer
 import com.babic.filip.coreui.scope.ScopeRetainerFactory
 import org.koin.android.ext.android.get
-import org.koin.android.ext.android.getKoin
 import org.koin.core.parameter.parametersOf
-import org.koin.core.qualifier.named
+import org.koin.core.scope.Scope
 
 abstract class BaseActivity<Data : Any> : AppCompatActivity(), BaseView {
 
     private val scopeRetainer: ScopeRetainer by lazy { buildScopeRetainer() }
+    protected val scope: Scope
+        get() = scopeRetainer.scope
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getKoin().getOrCreateScope(getScope(), named(getScope()))
         setContentView(getLayout())
         initializeScope(savedInstanceState)
         initPresenter()
