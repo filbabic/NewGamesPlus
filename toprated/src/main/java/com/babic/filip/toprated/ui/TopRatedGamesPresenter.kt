@@ -31,6 +31,11 @@ class TopRatedGamesPresenter(private val getTopRatedGames: GetTopRatedGamesUseCa
         val currentPage = page
         page++
 
+        // todo implement this
+        val newGames = mapper.mapGamesToViewState(games)
+
+        changeViewState { currentState -> mapper.updateState(currentState, games) }
+
         changeViewState { viewState ->
             val allItems = if (currentPage == 0) games else viewState.games + games
 

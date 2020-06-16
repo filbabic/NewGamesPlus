@@ -45,10 +45,14 @@ dependencies {
     //di
     implementation "org.koin:koin-core:$koin"
     implementation "org.koin:koin-android:$koin"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 kotlin {
     experimental {
         coroutines "enable"
     }
+}
+repositories {
+    mavenCentral()
 }

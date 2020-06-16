@@ -8,8 +8,8 @@ import com.filip.babic.newgamesplus.routing.RoutingMediator
 import org.koin.dsl.module.module
 
 val navigationModule = module {
-    factory {
-        val activity: BaseActivity<*> = it[0]
+    factory { parameters ->
+        val activity: BaseActivity<*> = parameters[0]
 
         RoutingMediator(NavigationRouter(activity)) as RoutingDispatcher<Router>
     }
