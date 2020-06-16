@@ -15,7 +15,6 @@ import retrofit2.Call
 import retrofit2.HttpException
 import java.io.IOException
 import java.net.ConnectException
-import kotlin.coroutines.experimental.suspendCoroutine
 
 private const val DEFAULT_RETRY_ATTEMPTS = 3
 private const val REPEAT_DELAY = 10_000L
@@ -42,13 +41,7 @@ suspend fun <T : Mappable<R>, R : Any> Call<T>.getResult(): Result<R> {
         }
     }
 
-    val dataProvider: suspend () -> Result<R> = {
-        suspendCoroutine { continuation ->
-            val data = callWrapper()
-
-            data?.run { continuation.resume(this) }
-        }
-    }
+    val dataProvider: suspend () -> Result<R> = { callWrapper() ?: Failure(NullPointerException()) }
 
     val dataInvalidator: (Result<R>) -> Boolean = { data -> data is Failure && (data.error == NetworkException || data.error == ServerError) }
 

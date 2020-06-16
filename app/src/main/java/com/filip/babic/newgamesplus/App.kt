@@ -5,6 +5,7 @@ import com.babic.filip.core.di.coreModule
 import com.babic.filip.gamedetails.di.gameDetailsModule
 import com.babic.filip.login.di.loginModule
 import com.babic.filip.main.di.mainModule
+import com.babic.filip.myprofile.userModule
 import com.babic.filip.networking.data.di.networkingModule
 import com.babic.filip.register.di.registerModule
 import com.babic.filip.splash.di.splashModule
@@ -45,6 +46,7 @@ class App : Application() {
             preferenceModule,
             mainModule,
             gameDetailsModule,
-            topRatedGamesModule
+            topRatedGamesModule,
+            userModule
     )
 }
